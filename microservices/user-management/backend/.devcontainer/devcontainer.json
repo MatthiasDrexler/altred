@@ -27,6 +27,7 @@
 		"tamasfe.even-better-toml",
 		"serayuzgur.crates",
 		"swellaby.vscode-rust-test-adapter",
+		"ryanluker.vscode-coverage-gutters"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
