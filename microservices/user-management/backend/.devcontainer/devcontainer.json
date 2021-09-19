@@ -22,11 +22,11 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"rust-lang.rust",
+		"matklad.rust-analyzer",
 		"vadimcn.vscode-lldb",
 		"tamasfe.even-better-toml",
 		"serayuzgur.crates",
-		"swellaby.vscode-rust-test-adapter"
+		"swellaby.vscode-rust-test-adapter",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
