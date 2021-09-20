@@ -9,10 +9,12 @@ const DEFAULT_PORT: &str = "8080";
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(web::resource("/signup").to(controller::sign_up::sign_up)))
-        .bind(bind_to())?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new().service(web::resource("/signup").to(controller::sign_up::sign_up))
+    })
+    .bind(bind_to())?
+    .run()
+    .await
 }
 
 fn bind_to() -> String {
