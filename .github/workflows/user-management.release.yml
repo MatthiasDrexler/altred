@@ -1,0 +1,24 @@
+name: User Management (Backend)
+on:
+  push:
+    branches:
+      - ${{ github.event.repository.default_branch }}
+    paths:
+      - "microservices/user-management/backend/**"
+jobs:
+  UserManagement_Release:
+    name: User Management - Release
+    runs-on: ubuntu-latest
+    needs: UM_Check
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build user-management backend
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path microservices/user-management/backend/Cargo.toml --release
