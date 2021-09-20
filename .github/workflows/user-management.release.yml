@@ -2,9 +2,10 @@ name: User Management (Backend)
 on:
   push:
     branches:
-      - ${{ github.event.repository.default_branch }}
-    paths:
-      - "microservices/user-management/backend/**"
+      - main
+      - feature/setUpBasicDevEnvironment
+    # paths:
+    #   - "microservices/user-management/backend/**"
 jobs:
   UserManagement_Release:
     name: User Management - Release
