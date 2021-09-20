@@ -19,7 +19,8 @@
 		"angular.ng-template",
 		"johnpapa.angular2",
 		"dbaeumer.vscode-eslint",
-		"remimarsal.prettier-now"
+		"remimarsal.prettier-now",
+		"raagh.angular-karma-test-explorer"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

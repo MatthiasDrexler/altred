@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse};
+use actix_web::HttpResponse;
 
 pub async fn sign_up() -> HttpResponse {
     HttpResponse::Ok().body("Hello World")
