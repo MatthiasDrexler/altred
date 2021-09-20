@@ -18,6 +18,7 @@ async fn main() -> std::io::Result<()> {
 }
 
 fn bind_to() -> String {
-    let at_port = env::var(PORT_ENVIRONMENT_VARIABLE_KEY).unwrap_or(String::from(DEFAULT_PORT));
+    let at_port =
+        env::var(PORT_ENVIRONMENT_VARIABLE_KEY).unwrap_or_else(|_| String::from(DEFAULT_PORT));
     format!("{}:{}", ACCEPT_REQUESTS_FROM, at_port)
 }
