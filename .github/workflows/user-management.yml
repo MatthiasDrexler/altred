@@ -1,14 +1,14 @@
 name: User Management (Backend)
 on:
   push:
-    paths:
-      - "microservices/user-management/backend/**"
+    # paths:
+    #   - "microservices/user-management/backend/**"
   pull_request:
-    paths:
-      - "microservices/user-management/backend/**"
+    # paths:
+    #   - "microservices/user-management/backend/**"
   pull_request_target:
-    paths:
-      - "microservices/user-management/backend/**"
+    # paths:
+    #   - "microservices/user-management/backend/**"
 jobs:
   UserManagement_Check:
     name: User Management - Check
@@ -36,3 +36,20 @@ jobs:
         with:
           command: test
           args: --manifest-path microservices/user-management/backend/Cargo.toml
+  UserManagement_Deploy:
+    name: User Management - Deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: UserManagement_Check
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build user-management backend
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path microservices/user-management/backend/Cargo.toml --release
