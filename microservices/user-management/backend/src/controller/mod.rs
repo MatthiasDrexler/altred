@@ -1,1 +1,1 @@
-pub(crate) mod signup_controller;
+pub(crate) mod sign_up;
