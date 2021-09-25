@@ -1,5 +1,5 @@
-mod persistence;
 mod controller;
+mod persistence;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
