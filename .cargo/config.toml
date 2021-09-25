@@ -1,0 +1,2 @@
+[alias]
+coverage = "tarpaulin --ignore-tests --out lcov"

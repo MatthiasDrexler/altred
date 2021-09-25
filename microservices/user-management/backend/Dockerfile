@@ -1,0 +1,12 @@
+FROM rust:slim-bullseye as builder
+WORKDIR /rust/src/user-management
+COPY src/ ./src/
+COPY Cargo.* ./
+RUN cargo install --path .
+
+RUN useradd -m nonrootuser
+USER nonrootuser
+
+# FROM gcr.io/distroless/cc-debian10
+# COPY --from=builder /usr/local/cargo/bin/user-management /
+CMD ["user-management"]
