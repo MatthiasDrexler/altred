@@ -1,1 +1,2 @@
-pub(crate) mod sign_up;
+pub mod server;
+pub mod sign_up;

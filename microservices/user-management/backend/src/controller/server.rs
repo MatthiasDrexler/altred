@@ -1,7 +1,7 @@
+use crate::controller;
+
 use actix_web::{web, App, HttpServer};
 use std::env;
-
-use crate::controller;
 
 const ACCEPT_REQUESTS_FROM: &str = "0.0.0.0";
 const PORT_ENVIRONMENT_VARIABLE_KEY: &str = "PORT";

@@ -1,7 +1,8 @@
-mod server;
+mod persistence;
 mod controller;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    server::run().await
+    persistence::connection::establish_connection();
+    controller::server::run().await
 }
