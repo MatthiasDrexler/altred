@@ -8,10 +8,6 @@ on:
     paths:
       - "microservices/user-management/backend/**"
       - ".github/workflows/user-management.yml"
-  pull_request_target:
-    paths:
-      - "microservices/user-management/backend/**"
-      - ".github/workflows/user-management.yml"
 jobs:
   UserManagement_Check:
     name: User Management - Check
