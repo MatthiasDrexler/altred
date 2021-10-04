@@ -14,7 +14,7 @@ import type { Request } from "@sveltejs/kit"
 
 const base = "https://api.svelte.dev"
 
-export async function api(request: Request<Locals>, resource: string, data?: {}) {
+export async function api(request: Request<Locals>, resource: string, data?: unknown): Promise<unknown> {
   // user must have a cookie set
   if (!request.locals.userid) {
     return { status: 401 }
