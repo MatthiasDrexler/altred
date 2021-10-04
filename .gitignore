@@ -42,6 +42,7 @@ yarn-error.log
 testem.log
 typings
 videos
+screenshots
 
 # system files
 .DS_Store

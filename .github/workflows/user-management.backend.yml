@@ -3,18 +3,14 @@ on:
   push:
     paths:
       - "microservices/user-management/backend/**"
-      - ".github/workflows/user-management.yml"
+      - ".github/workflows/user-management.backend.yml"
   pull_request:
     paths:
       - "microservices/user-management/backend/**"
-      - ".github/workflows/user-management.yml"
-  pull_request_target:
-    paths:
-      - "microservices/user-management/backend/**"
-      - ".github/workflows/user-management.yml"
+      - ".github/workflows/user-management.backend.yml"
 jobs:
-  UserManagement_Check:
-    name: User Management - Check
+  UserManagement_Backend_Check:
+    name: User Management - Backend - Check
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -39,11 +35,11 @@ jobs:
         with:
           command: test
           args: --manifest-path microservices/user-management/backend/Cargo.toml
-  UserManagement_Deploy:
-    name: User Management - Deploy
+  UserManagement_Backend_Deploy:
+    name: User Management - Backend - Deploy
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: UserManagement_Check
+    needs: UserManagement_Backend_Check
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
