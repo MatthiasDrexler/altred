@@ -10,7 +10,9 @@
     "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "cypress:run": "npx cypress run",
+    "cypress:open": "TS_NODE_PROJECT=0 npx cypress open"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
