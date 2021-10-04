@@ -1,9 +1,12 @@
 # compiled output
 target
+build
 dist
+package
 tmp
 out-tsc
 bazel-out
+.svelte-kit
 
 # dependencies
 node_modules
@@ -38,6 +41,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 typings
+videos
+screenshots
 
 # system files
 .DS_Store
@@ -45,4 +50,3 @@ Thumbs.db
 
 # backup files
 **/*.rs.bk
-
