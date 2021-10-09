@@ -1,0 +1,125 @@
+version: '3.8'
+
+networks:
+  altred-dev:
+    name: altred-dev
+    ipam:
+      config:
+        - subnet: ${IP_SUBNET}
+  not-altred-dev:
+    name: not-altred-dev
+
+volumes:
+  altred-postgres-storage:
+    name: sisuite-postgres-storage
+
+services:
+  ##########################
+  # Local cloud networking #
+  ##########################
+  host-dns-server:
+    container_name: host-dns-server
+    image: coredns/coredns:${COREDNS_VERSION}
+    networks:
+        - not-altred-dev
+    ports:
+      - 53:53/udp
+    command: -conf /etc/coredns/Corefile
+    environment:
+      CLUSTER_DOMAIN: $CLUSTER_DOMAIN
+    volumes:
+      - ./coredns/redirect-from-host-to-cluster/:/etc/coredns/
+
+  internal-dns-server:
+    container_name: internal-dns-server
+    image: coredns/coredns:${COREDNS_VERSION}
+    networks:
+      altred-dev:
+        ipv4_address: ${INTERNAL_DNS_IP}
+    command: -conf /etc/coredns/Corefile
+    environment:
+      TRAEFIK_IP: $TRAEFIK_IP
+      CLUSTER_DOMAIN: $CLUSTER_DOMAIN
+    volumes:
+      - ./coredns/internal-routing-to-reverse-proxy/:/etc/coredns/
+
+  reverse-proxy:
+    container_name: traefik
+    image: traefik:${TRAEFIK_VERSION}
+    networks:
+      altred-dev:
+        ipv4_address: ${TRAEFIK_IP}
+    ports:
+      - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.filename=/etc/traefik/routes.yml"
+      - "--providers.file.watch=true"
+      - "--entrypoints.web.address=:${REVERSE_PROXY_PORT}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+    volumes:
+      - ./traefik/routes.yml:/etc/traefik/routes.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+
+  ########################
+  # Third-party services #
+  ########################
+  postgres:
+    container_name: postgres
+    image: postgres:${POSTGRES_VERSION}
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    ports:
+      - ${POSTGRES_HOST_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: $SERVICE_USERNAME
+      POSTGRES_PASSWORD: $SERVICE_PASSWORD
+    volumes:
+      - altred-postgres-storage:/var/lib/postgresql/data
+      - ./postgres/create-databases.sql:/docker-entrypoint-initdb.d/10-create-databases.sql
+
+  postgres-admin:
+    container_name: postgres-admin
+    image: dpage/pgadmin4:${PGADMIN_VERSION}
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${SERVICE_USERNAME}@${CLUSTER_DOMAIN}
+      PGADMIN_DEFAULT_PASSWORD: $SERVICE_PASSWORD
+      PGADMIN_SERVER_JSON_FILE: /etc/servers.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.postgres-admin.rule=Host(`pgadmin.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.services.postgres-admin.loadbalancer.server.port=80"
+    volumes:
+      - ./pgadmin/servers.json:/etc/servers.json
+
+  ###################
+  # altred services #
+  ###################
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak:15.0.2
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    environment:
+      KEYCLOAK_USER: $SERVICE_USERNAME
+      KEYCLOAK_PASSWORD: $SERVICE_PASSWORD
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_PORT: $POSTGRES_PORT
+      DB_USER: $SERVICE_USERNAME
+      DB_PASSWORD: $SERVICE_PASSWORD
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"

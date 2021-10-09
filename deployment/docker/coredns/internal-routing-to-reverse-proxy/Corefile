@@ -1,0 +1,18 @@
+# everything related with the altred cloud is directed to the internal port of
+# the reverse proxy
+{$CLUSTER_DOMAIN} {
+    log
+    # use IPv4 only (in case of IPv6 requests answer with IPv4)
+    rewrite stop type AAAA A
+    template IN A {
+        answer "{{.Name}} 60 IN A {$TRAEFIK_IP}"
+    }
+}
+
+# anything unrelated with the altred cloud is forwarded to the fallback DNS
+# server
+. {
+    errors
+    # use CloudFlare as fallback dns server
+    forward . 1.1.1.1 1.0.0.1
+}
