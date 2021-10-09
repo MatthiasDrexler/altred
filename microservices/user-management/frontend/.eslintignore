@@ -2,3 +2,4 @@ cypress/
 node_modules/
 static/
 .svelte-kit/
+target/
