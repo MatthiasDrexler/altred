@@ -9,7 +9,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --ignore-path .eslintignore --check --plugin-search-dir=. . && eslint --ignore-path .eslintignore .",
     "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest test src --config jest.config.json",
     "test:watch": "npm run test -- --watch",
     "cypress:run": "npx cypress run",
     "cypress:open": "TS_NODE_PROJECT=0 npx cypress open"
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.0",
+    "@sveltejs/adapter-node": "^1.0.0-next.53",
     "@sveltejs/kit": "next",
     "@testing-library/jest-dom": "^5.14.0",
     "@testing-library/svelte": "^3.0.0",

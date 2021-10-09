@@ -1,8 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "isolatedModules": false
+    "isolatedModules": false,
+    "paths": {
+      "$routes": ["src/routes/"],
+      "$routes/*": ["src/routes/*"]
+    }
   },
   "exclude": ["src/**"],
-  "include": ["src/**/*.spec.ts"]
+  "include": ["src/**/*.spec.ts", "test/**/*.spec.ts"]
 }
