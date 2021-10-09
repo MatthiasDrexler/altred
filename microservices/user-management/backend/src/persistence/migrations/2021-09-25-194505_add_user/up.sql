@@ -8,6 +8,3 @@ CREATE TABLE IF NOT EXISTS public."user"
     locked boolean NOT NULL DEFAULT false,
     CONSTRAINT user_pkey PRIMARY KEY (email)
 );
-
-ALTER TABLE public."user"
-    OWNER to local;
