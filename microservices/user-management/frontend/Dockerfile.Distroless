@@ -9,7 +9,7 @@ COPY tsconfig.json ./
 RUN yarn install
 RUN yarn build
 
-FROM node:16-alpine
+FROM node:16-alpine as packager
 WORKDIR /svelte/user-management
 COPY --from=builder /svelte/src/user-management/package.json ./
 COPY --from=builder /svelte/src/user-management/target/ ./target/
@@ -17,3 +17,7 @@ RUN yarn install --production
 RUN addgroup -S nonrootgroup && adduser -S nonrootuser -G nonrootgroup
 USER nonrootuser
 CMD ["node", "target/index.js"]
+
+FROM gcr.io/distroless/nodejs:16
+COPY --from=packager /svelte/user-management ./
+CMD ["target/index.js"]

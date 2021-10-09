@@ -4,8 +4,6 @@ COPY src/ ./src/
 COPY Cargo.* ./
 RUN cargo install --path .
 
-# FROM gcr.io/distroless/cc-debian10
-# COPY --from=builder /usr/local/cargo/bin/user-management /
 FROM rust:slim-bullseye
 COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/user-management
 RUN useradd -m nonrootuser
