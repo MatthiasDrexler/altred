@@ -1,12 +1,17 @@
 use chrono::Utc;
 #[cfg(test)]
 use mockall::automock;
-use waiter_di::{component, profiles, Component, Provider};
+use waiter_di::{component, profiles, provides, Component, Provider};
 
 use crate::{
     di::di_container,
     domain::entities::{user::User, user_sign_up::UserToSignUp},
 };
+
+#[cfg_attr(test, automock)]
+pub trait TSignUpService: Send + Sync {
+    fn register(&self, user_to_sign_up: UserToSignUp) -> User;
+}
 
 #[cfg_attr(test, automock)]
 pub trait TRegisterServicePersistence: Send + Sync {
@@ -24,20 +29,9 @@ impl Default for RegisterService {
     }
 }
 
-impl RegisterService {
-    pub fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<RegisterService>::create(&mut container)
-    }
-
-    #[cfg(test)]
-    pub fn construct(persistence: Box<dyn TRegisterServicePersistence>) -> Self{
-        RegisterService {
-            register_service_persistence: persistence
-        }
-    }
-
-    pub fn register(&self, user_to_sign_up: UserToSignUp) -> User {
+#[provides]
+impl TSignUpService for RegisterService {
+    fn register(&self, user_to_sign_up: UserToSignUp) -> User {
         let user = User {
             email: user_to_sign_up.email,
             username: user_to_sign_up.username,
@@ -48,6 +42,20 @@ impl RegisterService {
         };
 
         self.register_service_persistence.register_user(user)
+    }
+}
+
+impl RegisterService {
+    pub fn new() -> Self {
+        let mut container = di_container::get::<profiles::Default>();
+        Provider::<RegisterService>::create(&mut container)
+    }
+
+    #[cfg(test)]
+    pub fn construct(persistence: Box<dyn TRegisterServicePersistence>) -> Self {
+        RegisterService {
+            register_service_persistence: persistence,
+        }
     }
 }
 
@@ -76,7 +84,7 @@ mod tests {
         let user_to_sign_up = UserToSignUp {
             email: String::from("test@mail.com"),
             username: String::from("username"),
-            password: String::from("password")
+            password: String::from("password"),
         };
 
         let user = register_service.register(user_to_sign_up.clone());
