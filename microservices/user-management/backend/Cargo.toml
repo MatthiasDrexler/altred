@@ -20,3 +20,4 @@ waiter_di = { version = "1.6.5", features = ["async"] }
 
 [dev-dependencies]
 spectral = "0.6.0"
+mockall = "0.10.2"
