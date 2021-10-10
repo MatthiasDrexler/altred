@@ -1,5 +1,4 @@
-use crate::controller::entities::user_dto::UserDto;
-use crate::domain::entities::user::User;
+use crate::{controller::entities::user_dto::UserDto, domain::entities::user::User};
 
 pub fn convert_to_user_dto(user: User) -> UserDto {
     UserDto {
