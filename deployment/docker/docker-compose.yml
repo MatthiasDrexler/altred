@@ -11,7 +11,7 @@ networks:
 
 volumes:
   altred-postgres-storage:
-    name: sisuite-postgres-storage
+    name: altred-postgres-storage
 
 services:
   ##########################

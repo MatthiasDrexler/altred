@@ -4,5 +4,5 @@
 [print_schema]
 file = "src/persistence/schema.rs"
 
-[migrations_directory]
-file = "src/persistence/migrations"
+# [migrations_directory]
+# file = "src/persistence/migrations"

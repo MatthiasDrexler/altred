@@ -536,6 +536,7 @@ checksum = "b28135ecf6b7d446b43e27e225622a038cc4e2930a1022f51cdb97ada19b8e4d"
 dependencies = [
  "bitflags",
  "byteorder",
+ "chrono",
  "diesel_derives",
  "pq-sys",
  "r2d2",
@@ -2077,6 +2078,7 @@ dependencies = [
  "diesel",
  "diesel_migrations",
  "dotenv",
+ "lazy_static 1.4.0",
  "serde 1.0.130",
  "spectral",
  "waiter_di",

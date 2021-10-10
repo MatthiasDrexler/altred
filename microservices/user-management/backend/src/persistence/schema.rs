@@ -1,10 +1,10 @@
 table! {
-    user (email) {
+    users (email) {
         email -> Varchar,
         username -> Varchar,
         hashed_password -> Bpchar,
-        registration_date -> Date,
-        activation_date -> Nullable<Date>,
+        registration_date -> Timestamptz,
+        activation_date -> Nullable<Timestamptz>,
         locked -> Bool,
     }
 }
