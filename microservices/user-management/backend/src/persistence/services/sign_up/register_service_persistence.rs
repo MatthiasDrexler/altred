@@ -1,6 +1,8 @@
 use waiter_di::{component, provides, Component};
 
-use crate::domain::{entities::user::User, sign_up::register_service::TRegisterServicePersistence};
+use crate::domain::{
+    entities::user::User, services::sign_up::register_service::TRegisterServicePersistence,
+};
 
 #[component]
 pub struct RegisterServicePersistence {}

@@ -8,7 +8,7 @@ use crate::{
         },
         entities::user_sign_up_dto::UserToSignUpDto,
     },
-    domain::sign_up::register_service::RegisterService,
+    domain::services::sign_up::register_service::RegisterService,
 };
 
 pub async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
