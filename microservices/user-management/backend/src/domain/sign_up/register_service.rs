@@ -15,12 +15,16 @@ pub struct RegisterService {
     register_service_persistence: Box<dyn TRegisterServicePersistence>,
 }
 
+impl Default for RegisterService {
+    fn default() -> Self {
+        RegisterService::new()
+    }
+}
+
 impl RegisterService {
     pub fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
-        let register_service = Provider::<RegisterService>::create(&mut container);
-
-        register_service
+        Provider::<RegisterService>::create(&mut container)
     }
 
     pub fn register(&self, user_to_sign_up: UserToSignUp) -> User {

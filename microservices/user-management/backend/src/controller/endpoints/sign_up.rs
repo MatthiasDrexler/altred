@@ -14,7 +14,7 @@ use crate::{
 pub async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
     let user = convert_from_user_sign_up_dto(user_sign_up_dto.into_inner());
 
-    let register_service = RegisterService::new();
+    let register_service = RegisterService::default();
     let registered_user = register_service.register(user);
 
     let registered_user_dto = convert_to_user_dto(registered_user);
