@@ -7,7 +7,7 @@ use crate::{
             user_converter::convert_to_user_dto,
             user_to_sign_up_converter::convert_from_user_sign_up_dto,
         },
-        entities::user_sign_up_dto::UserToSignUpDto,
+        dtos::user_sign_up_dto::UserToSignUpDto,
     },
     di::di_container,
     domain::services::sign_up::register_service::TRegisterService,

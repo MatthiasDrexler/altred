@@ -1,5 +1,5 @@
 use crate::{
-    controller::entities::user_sign_up_dto::UserToSignUpDto,
+    controller::dtos::user_sign_up_dto::UserToSignUpDto,
     domain::entities::user_sign_up::UserToSignUp,
 };
 
