@@ -16,7 +16,7 @@ pub(crate) async fn run() -> Result<(), std::io::Error> {
         App::new().service(
             web::resource("/signup")
                 .app_data(json_config())
-                .route(web::post().to(controller::endpoints::sign_up::sign_up)),
+                .route(web::post().to(controller::endpoints::sign_up_endpoint::sign_up)),
         )
     })
     .bind(bind_to())?

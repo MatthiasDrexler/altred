@@ -10,7 +10,7 @@ use crate::{
         entities::user_sign_up_dto::UserToSignUpDto,
     },
     di::di_container,
-    domain::services::sign_up::register_service::TSignUpService,
+    domain::services::sign_up::register_service::TRegisterService,
 };
 
 pub async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
@@ -19,7 +19,7 @@ pub async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpRespon
 
 #[component]
 pub struct SignUpEndpoint {
-    register_service: Box<dyn TSignUpService>,
+    register_service: Box<dyn TRegisterService>,
 }
 
 impl Default for SignUpEndpoint {
@@ -35,18 +35,18 @@ impl SignUpEndpoint {
     }
 
     #[cfg(test)]
-    pub fn construct(service: Box<dyn TSignUpService>) -> Self {
+    pub fn construct(service: Box<dyn TRegisterService>) -> Self {
         SignUpEndpoint {
             register_service: service,
         }
     }
 
     pub fn sign_up(&self, user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
-        let user = convert_from_user_sign_up_dto(user_sign_up_dto.into_inner());
+        let user = convert_from_user_sign_up_dto(&user_sign_up_dto.into_inner());
 
-        let registered_user = self.register_service.register(user);
+        let registered_user = self.register_service.register(&user);
 
-        let registered_user_dto = convert_to_user_dto(registered_user);
+        let registered_user_dto = convert_to_user_dto(&registered_user);
         HttpResponse::Ok().json(registered_user_dto)
     }
 }
@@ -54,7 +54,7 @@ impl SignUpEndpoint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::domain::services::sign_up::register_service::*;
+    use crate::domain::{entities::user::User, services::sign_up::register_service::*};
 
     use actix_web::http::StatusCode;
     use mockall::predicate;
@@ -67,7 +67,14 @@ mod tests {
             .expect_register_user()
             .with(predicate::always())
             .times(1)
-            .returning(|user| user);
+            .returning(|user| User {
+                email: String::from(&user.email),
+                username: String::from(&user.username),
+                hashed_password: String::from(&user.hashed_password),
+                registration_date: user.registration_date,
+                activation_date: user.activation_date,
+                locked: user.locked,
+            });
         let register_service = RegisterService::construct(Box::new(persistence_mock));
         let sign_up_endpoint = SignUpEndpoint::construct(Box::new(register_service));
         let user_sign_up_dto = UserToSignUpDto {

@@ -9,13 +9,13 @@ use crate::{
 };
 
 #[cfg_attr(test, automock)]
-pub trait TSignUpService: Send + Sync {
-    fn register(&self, user_to_sign_up: UserToSignUp) -> User;
+pub trait TRegisterService: Send + Sync {
+    fn register(&self, user_to_sign_up: &UserToSignUp) -> User;
 }
 
 #[cfg_attr(test, automock)]
 pub trait TRegisterServicePersistence: Send + Sync {
-    fn register_user(&self, user: User) -> User;
+    fn register_user(&self, user: &User) -> User;
 }
 
 #[component]
@@ -30,18 +30,18 @@ impl Default for RegisterService {
 }
 
 #[provides]
-impl TSignUpService for RegisterService {
-    fn register(&self, user_to_sign_up: UserToSignUp) -> User {
+impl TRegisterService for RegisterService {
+    fn register(&self, user_to_sign_up: &UserToSignUp) -> User {
         let user = User {
-            email: user_to_sign_up.email,
-            username: user_to_sign_up.username,
-            hashed_password: user_to_sign_up.password,
+            email: String::from(&user_to_sign_up.email),
+            username: String::from(&user_to_sign_up.username),
+            hashed_password: String::from(&user_to_sign_up.password),
             registration_date: Utc::now(),
             activation_date: None,
             locked: false,
         };
 
-        self.register_service_persistence.register_user(user)
+        self.register_service_persistence.register_user(&user)
     }
 }
 
@@ -79,7 +79,14 @@ mod tests {
             .expect_register_user()
             .with(predicate::always())
             .times(1)
-            .returning(|user| user);
+            .returning(|user| User {
+                email: String::from(&user.email),
+                username: String::from(&user.username),
+                hashed_password: String::from(&user.hashed_password),
+                registration_date: user.registration_date,
+                activation_date: user.activation_date,
+                locked: user.locked,
+            });
         let register_service = set_up(persistence_mock);
         let user_to_sign_up = UserToSignUp {
             email: String::from("test@mail.com"),
@@ -87,7 +94,7 @@ mod tests {
             password: String::from("password"),
         };
 
-        let user = register_service.register(user_to_sign_up.clone());
+        let user = register_service.register(&user_to_sign_up);
 
         assert_that(&user.email).is_equal_to(&user_to_sign_up.email);
         assert_that(&user.username).is_equal_to(&user_to_sign_up.username);

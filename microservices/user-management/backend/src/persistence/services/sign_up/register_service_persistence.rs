@@ -15,7 +15,7 @@ pub struct RegisterServicePersistence {
 
 #[provides]
 impl TRegisterServicePersistence for RegisterServicePersistence {
-    fn register_user(&self, user: User) -> User {
+    fn register_user(&self, user: &User) -> User {
         println!("registered user");
 
         let connection = &*(self.connection_pool.get_connection());
@@ -27,6 +27,13 @@ impl TRegisterServicePersistence for RegisterServicePersistence {
             .expect("error loading users");
         println!("{}", number.len());
 
-        user
+        User {
+            email: String::from(&user.email),
+            username: String::from(&user.username),
+            hashed_password: String::from(&user.hashed_password),
+            registration_date: user.registration_date,
+            activation_date: user.activation_date,
+            locked: user.locked,
+        }
     }
 }
