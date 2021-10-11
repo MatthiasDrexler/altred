@@ -1,5 +1,6 @@
 FROM rust:slim-bullseye as builder
 WORKDIR /rust/src/user-management
+RUN apt-get update && apt-get install -y libpq5 libpq-dev
 COPY src/ ./src/
 COPY Cargo.* ./
 RUN cargo install --path .
