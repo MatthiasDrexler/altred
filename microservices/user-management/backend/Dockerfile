@@ -7,9 +7,9 @@ RUN cargo install --path .
 
 FROM rust:slim-bullseye
 COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/user-management
+RUN apt-get update && apt-get install -y libpq5 libpq-dev
 RUN useradd -m nonrootuser
 USER nonrootuser
-
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 CMD ["user-management"]
