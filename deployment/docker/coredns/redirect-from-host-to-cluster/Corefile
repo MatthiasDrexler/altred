@@ -1,0 +1,19 @@
+# everything related with the altred cloud is directed to the host port of the
+# reverse proxy
+{$CLUSTER_DOMAIN} {
+    log
+    template IN A {
+        answer "{{.Name}} 60 IN A 127.0.0.1"
+    }
+    template IN AAAA {
+        answer "{{.Name}} 60 IN AAAA ::1"
+    }
+}
+
+# anything unrelated with the altred cloud is forwarded to the fallback DNS
+# server
+. {
+    errors
+    # use CloudFlare as fallback dns server
+    forward . 1.1.1.1 1.0.0.1 2606:4700:4700::64 2606:4700:4700::6400
+}

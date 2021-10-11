@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "altred",
+            "Group": "Servers",
+            "Port": 5432,
+            "Host": "postgres",
+            "Username": "admin",
+            "SSLMode": "disable",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}

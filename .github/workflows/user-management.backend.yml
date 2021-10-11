@@ -29,7 +29,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: --manifest-path microservices/user-management/backend/Cargo.toml --all-targets -- -D warnings
+          args: --manifest-path microservices/user-management/backend/Cargo.toml --all-targets -- -D warnings -A clippy::map_entry
       - name: Test user-management backend
         uses: actions-rs/cargo@v1
         with:
@@ -55,6 +55,6 @@ jobs:
         run: heroku container:login
       - name: Push Docker image to Heroku
         working-directory: ./microservices/user-management/backend
-        run: heroku container:push web --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }}
+        run: heroku container:push web --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} --arg DATABASE_URL=HEROKU_USER_MANAGEMENT_DB_URL
       - name: Release on Heroku
         run: heroku container:release --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} web

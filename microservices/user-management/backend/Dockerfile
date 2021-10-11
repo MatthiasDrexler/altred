@@ -8,4 +8,7 @@ FROM rust:slim-bullseye
 COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/user-management
 RUN useradd -m nonrootuser
 USER nonrootuser
+
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 CMD ["user-management"]

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: Database
+    image: postgres:13
+    environment:
+      POSTGRES_USER: local
+      POSTGRES_PASSWORD: test
+    ports:
+      - 5432:5432
+    networks:
+      - altred
+  pgadmin:
+    container_name: PgAdmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: local@test.de
+      PGADMIN_DEFAULT_PASSWORD: test
+    ports:
+      - 8080:80
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+    networks:
+      - altred
+
+networks:
+  altred:
+    driver: bridge
