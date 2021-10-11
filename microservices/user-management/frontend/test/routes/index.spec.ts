@@ -1,5 +1,5 @@
+import Index from "$routes/index.svelte"
 import { render, RenderResult } from "@testing-library/svelte"
-import Index from "./index.svelte"
 
 /**
  * @jest-environment jsdom
