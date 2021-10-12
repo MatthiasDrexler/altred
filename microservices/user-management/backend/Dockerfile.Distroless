@@ -1,9 +1,11 @@
 FROM rust:slim-bullseye as builder
 WORKDIR /rust/src/user-management
+RUN apt-get update && apt-get install --yes libpq5 libpq-dev
 COPY src/ ./src/
 COPY Cargo.* ./
 RUN cargo install --path .
 
-FROM gcr.io/distroless/cc-debian10
+FROM gcr.io/distroless/cc-debian10:debug
+COPY --from=builder /usr/lib/x86_64-linux-gnu/libpq.* /usr/lib/x86_64-linux-gnu/
 COPY --from=builder /usr/local/cargo/bin/user-management /
 CMD ["./user-management"]
