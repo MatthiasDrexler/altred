@@ -112,7 +112,7 @@ services:
     environment:
       KEYCLOAK_USER: $SERVICE_USERNAME
       KEYCLOAK_PASSWORD: $SERVICE_PASSWORD
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/altred-default-realm.json
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/altred-main-realm.json
       DB_VENDOR: postgres
       DB_ADDR: postgres
       DB_PORT: $POSTGRES_PORT
@@ -123,7 +123,7 @@ services:
       - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}.${CLUSTER_DOMAIN}`)"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     volumes:
-      - ./keycloak/altred-default-realm.json:/opt/jboss/keycloak/imports/altred-default-realm.json
+      - ./keycloak/altred-main-realm.json:/opt/jboss/keycloak/imports/altred-main-realm.json
 
   ###################
   # altred services #
@@ -146,4 +146,4 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.um-backend.rule=Host(`${UM_BACKEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
-      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.services.um-backend.loadbalancer.server.port=8080"
