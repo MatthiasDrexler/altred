@@ -55,8 +55,6 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.file.filename=/etc/traefik/routes.yml"
-      - "--providers.file.watch=true"
       - "--entrypoints.web.address=:${REVERSE_PROXY_PORT}"
     labels:
       - "traefik.enable=true"
@@ -81,6 +79,7 @@ services:
     environment:
       POSTGRES_USER: $SERVICE_USERNAME
       POSTGRES_PASSWORD: $SERVICE_PASSWORD
+      POSTGRES_PORT: $POSTGRES_PORT
     volumes:
       - altred-postgres-storage:/var/lib/postgresql/data
       - ./postgres/create-databases.sql:/docker-entrypoint-initdb.d/10-create-databases.sql
@@ -102,18 +101,18 @@ services:
     volumes:
       - ./pgadmin/servers.json:/etc/servers.json
 
-  ###################
-  # altred services #
-  ###################
   keycloak:
     container_name: keycloak
     image: jboss/keycloak:15.0.2
     extends:
       file: docker-compose.networksettings.yml
       service: internal-network
+    depends_on:
+      - postgres
     environment:
       KEYCLOAK_USER: $SERVICE_USERNAME
       KEYCLOAK_PASSWORD: $SERVICE_PASSWORD
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/altred-main-realm.json
       DB_VENDOR: postgres
       DB_ADDR: postgres
       DB_PORT: $POSTGRES_PORT
@@ -123,3 +122,28 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}.${CLUSTER_DOMAIN}`)"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    volumes:
+      - ./keycloak/altred-main-realm.json:/opt/jboss/keycloak/imports/altred-main-realm.json
+
+  ###################
+  # altred services #
+  ###################
+  user-management-backend:
+    container_name: user-management-backend
+    build:
+      context: ${MICROSERVICES_DIR}/user-management/backend
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: postgres://${SERVICE_USERNAME}:${SERVICE_PASSWORD}@postgres:${POSTGRES_PORT}/altred-user-management
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    depends_on:
+      - postgres
+    environment:
+      PORT: 8080
+      ALTRED_UM_KEYCLOAK_REALM_PUBLIC_KEY_URL: ${KEYCLOAK_BASE_URL}/auth/realms/altred-default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.um-backend.rule=Host(`${UM_BACKEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.services.um-backend.loadbalancer.server.port=8080"
