@@ -8,12 +8,12 @@ use waiter_di::{component, profiles, provides, Component, Provider};
 use crate::di::di_container;
 
 #[cfg_attr(test, automock)]
-pub trait TConnectionEstablisher: Send + Sync {
+pub(crate) trait TConnectionEstablisher: Send + Sync {
     fn establish_connection(&self) -> PgConnection;
 }
 
 #[component]
-pub struct ConnectionEstablisher {}
+pub(crate) struct ConnectionEstablisher {}
 
 impl Default for ConnectionEstablisher {
     fn default() -> Self {
@@ -22,13 +22,14 @@ impl Default for ConnectionEstablisher {
 }
 
 impl ConnectionEstablisher {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
         Provider::<ConnectionEstablisher>::create(&mut container)
     }
 
     #[cfg(test)]
-    pub fn construct() -> Self {
+    #[allow(dead_code)]
+    pub(crate) fn construct() -> Self {
         ConnectionEstablisher {}
     }
 }

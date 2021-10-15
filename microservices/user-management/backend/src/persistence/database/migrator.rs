@@ -7,12 +7,12 @@ use crate::{
     },
 };
 
-pub trait TDatabaseMigrator: Send + Sync {
+pub(crate) trait TDatabaseMigrator: Send + Sync {
     fn migrate_database(&self);
 }
 
 #[component]
-pub struct DatabaseMigrator {
+pub(crate) struct DatabaseMigrator {
     postgres_connection: Box<dyn TConnectionEstablisher>,
     embedded_migrations: Box<dyn TEmbeddedMigrations>,
 }
@@ -24,13 +24,14 @@ impl Default for DatabaseMigrator {
 }
 
 impl DatabaseMigrator {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
         Provider::<DatabaseMigrator>::create(&mut container)
     }
 
     #[cfg(test)]
-    pub fn construct(
+    #[allow(dead_code)]
+    pub(crate) fn construct(
         postgres_connection: Box<dyn TConnectionEstablisher>,
         embedded_migrations: Box<dyn TEmbeddedMigrations>,
     ) -> Self {

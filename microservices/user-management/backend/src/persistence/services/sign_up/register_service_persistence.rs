@@ -12,7 +12,7 @@ use crate::{
 };
 
 #[component]
-pub struct RegisterServicePersistence {
+pub(crate) struct RegisterServicePersistence {
     connection_pool: Box<dyn TPostgresConnectionPool>,
 }
 

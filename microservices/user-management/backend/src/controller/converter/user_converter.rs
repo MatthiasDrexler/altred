@@ -1,6 +1,6 @@
 use crate::{controller::dtos::user_dto::UserDto, domain::entities::user::User};
 
-pub fn convert_to_user_dto(user: &User) -> UserDto {
+pub(crate) fn convert_to_user_dto(user: &User) -> UserDto {
     UserDto {
         email: String::from(&user.email),
         username: String::from(&user.username),

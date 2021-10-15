@@ -13,12 +13,12 @@ use crate::{
     domain::services::sign_up::register_service::TRegisterService,
 };
 
-pub async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
+pub(crate) async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
     SignUpEndpoint::new().sign_up(user_sign_up_dto)
 }
 
 #[component]
-pub struct SignUpEndpoint {
+pub(crate) struct SignUpEndpoint {
     register_service: Box<dyn TRegisterService>,
 }
 
@@ -29,19 +29,19 @@ impl Default for SignUpEndpoint {
 }
 
 impl SignUpEndpoint {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
         Provider::<SignUpEndpoint>::create(&mut container)
     }
 
     #[cfg(test)]
-    pub fn construct(service: Box<dyn TRegisterService>) -> Self {
+    pub(crate) fn construct(service: Box<dyn TRegisterService>) -> Self {
         SignUpEndpoint {
             register_service: service,
         }
     }
 
-    pub fn sign_up(&self, user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
+    pub(crate) fn sign_up(&self, user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
         let user = convert_from_user_sign_up_dto(&user_sign_up_dto.into_inner());
 
         let registered_user = self.register_service.register(&user);

@@ -9,12 +9,12 @@ use crate::di::di_container;
 embed_migrations!("src/persistence/database/migrations");
 
 #[cfg_attr(test, automock)]
-pub trait TEmbeddedMigrations: Send + Sync {
+pub(crate) trait TEmbeddedMigrations: Send + Sync {
     fn run(&self, connection: &PgConnection) -> Result<(), RunMigrationsError>;
 }
 
 #[component]
-pub struct EmbeddedMigrations {}
+pub(crate) struct EmbeddedMigrations {}
 
 impl Default for EmbeddedMigrations {
     fn default() -> Self {
@@ -23,13 +23,14 @@ impl Default for EmbeddedMigrations {
 }
 
 impl EmbeddedMigrations {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
         Provider::<EmbeddedMigrations>::create(&mut container)
     }
 
     #[cfg(test)]
-    pub fn construct() -> Self {
+    #[allow(dead_code)]
+    pub(crate) fn construct() -> Self {
         EmbeddedMigrations {}
     }
 }

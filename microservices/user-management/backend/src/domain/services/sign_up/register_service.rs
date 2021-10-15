@@ -9,17 +9,17 @@ use crate::{
 };
 
 #[cfg_attr(test, automock)]
-pub trait TRegisterService: Send + Sync {
+pub(crate) trait TRegisterService: Send + Sync {
     fn register(&self, user_to_sign_up: &UserToSignUp) -> User;
 }
 
 #[cfg_attr(test, automock)]
-pub trait TRegisterServicePersistence: Send + Sync {
+pub(crate) trait TRegisterServicePersistence: Send + Sync {
     fn register_user(&self, user: &User) -> User;
 }
 
 #[component]
-pub struct RegisterService {
+pub(crate) struct RegisterService {
     register_service_persistence: Box<dyn TRegisterServicePersistence>,
 }
 
@@ -46,13 +46,13 @@ impl TRegisterService for RegisterService {
 }
 
 impl RegisterService {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
         Provider::<RegisterService>::create(&mut container)
     }
 
     #[cfg(test)]
-    pub fn construct(persistence: Box<dyn TRegisterServicePersistence>) -> Self {
+    pub(crate) fn construct(persistence: Box<dyn TRegisterServicePersistence>) -> Self {
         RegisterService {
             register_service_persistence: persistence,
         }

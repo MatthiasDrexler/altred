@@ -1,6 +1,6 @@
 use chrono::{DateTime, Utc};
 
-pub struct User {
+pub(crate) struct User {
     pub email: String,
     pub username: String,
     pub hashed_password: String,
