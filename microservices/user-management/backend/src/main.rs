@@ -1,4 +1,4 @@
-use crate::persistence::migrator;
+use crate::persistence::database::database_migrator::{DatabaseMigrator, TDatabaseMigrator};
 
 mod controller;
 mod di;
@@ -12,6 +12,6 @@ extern crate diesel_migrations;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    migrator::migrate_database();
+    DatabaseMigrator::new().migrate_database();
     controller::server::run().await
 }

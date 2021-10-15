@@ -5,12 +5,12 @@ use crate::{
     domain::{
         entities::user::User, services::sign_up::register_service::TRegisterServicePersistence,
     },
-    persistence::{connection_pool::TConnectionPool, entities::user_entity::UserEntity, schema::*},
+    persistence::{database::connection_pool::TPostgresConnectionPool, entities::user_entity::UserEntity, database::schema::*},
 };
 
 #[component]
 pub struct RegisterServicePersistence {
-    connection_pool: Box<dyn TConnectionPool>,
+    connection_pool: Box<dyn TPostgresConnectionPool>,
 }
 
 #[provides]

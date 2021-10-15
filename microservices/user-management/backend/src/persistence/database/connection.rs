@@ -8,7 +8,7 @@ use waiter_di::{component, profiles, provides, Component, Provider};
 use crate::di::di_container;
 
 #[cfg_attr(test, automock)]
-pub trait TPostgresConnection {
+pub trait TPostgresConnection: Send + Sync {
     fn establish_connection(&self) -> PgConnection;
 }
 

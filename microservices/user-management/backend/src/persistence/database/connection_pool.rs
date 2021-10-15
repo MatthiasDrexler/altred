@@ -12,15 +12,15 @@ lazy_static! {
         Mutex::new(establish_connection_pool());
 }
 
-pub trait TConnectionPool: Send + Sync {
+pub trait TPostgresConnectionPool: Send + Sync {
     fn get_connection(&self) -> PooledConnection<ConnectionManager<PgConnection>>;
 }
 
 #[component]
-pub struct ConnectionPool {}
+pub struct PostgresConnectionPool {}
 
 #[provides]
-impl TConnectionPool for ConnectionPool {
+impl TPostgresConnectionPool for PostgresConnectionPool {
     fn get_connection(&self) -> PooledConnection<ConnectionManager<PgConnection>> {
         POOL.lock().unwrap().clone().get().unwrap()
     }
