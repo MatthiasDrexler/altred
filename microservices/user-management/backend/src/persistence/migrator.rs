@@ -1,6 +1,8 @@
 use diesel::PgConnection;
+#[cfg(test)]
+use mockall::automock;
 
-use crate::persistence::connection;
+use crate::persistence::connection::{self, TPostgresConnection};
 
 embed_migrations!("src/persistence/migrations");
 
@@ -9,7 +11,7 @@ pub fn migrate_database() {
 }
 
 fn setup_connection() -> PgConnection {
-    return connection::establish_connection()
+    return connection::PostgresConnection::default().establish_connection();
 }
 
 fn run_migration_on(connection: PgConnection) {

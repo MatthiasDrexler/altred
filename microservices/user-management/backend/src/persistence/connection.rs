@@ -1,27 +1,45 @@
-use diesel::{
-    pg::PgConnection,
-    r2d2::{ConnectionManager, Pool},
-    Connection,
-};
+use diesel::{pg::PgConnection, Connection};
 use dotenv::dotenv;
+#[cfg(test)]
+use mockall::automock;
 use std::env;
+use waiter_di::{component, profiles, provides, Component, Provider};
 
-pub fn establish_connection() -> PgConnection {
-    dotenv().ok();
+use crate::di::di_container;
 
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    PgConnection::establish(&database_url)
-        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+#[cfg_attr(test, automock)]
+pub trait TPostgresConnection {
+    fn establish_connection(&self) -> PgConnection;
 }
 
-#[allow(dead_code)]
-pub fn establish_connection_pool() -> Pool<ConnectionManager<PgConnection>> {
-    dotenv().ok();
+#[component]
+pub struct PostgresConnection {}
 
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = ConnectionManager::<PgConnection>::new(&database_url);
-    diesel::r2d2::Pool::builder()
-        .max_size(5)
-        .build(manager)
-        .expect("Connection pool could not be instantiated")
+impl Default for PostgresConnection {
+    fn default() -> Self {
+        PostgresConnection::new()
+    }
+}
+
+impl PostgresConnection {
+    pub fn new() -> Self {
+        let mut container = di_container::get::<profiles::Default>();
+        Provider::<PostgresConnection>::create(&mut container)
+    }
+
+    #[cfg(test)]
+    pub fn construct() -> Self {
+        PostgresConnection {}
+    }
+}
+
+#[provides]
+impl TPostgresConnection for PostgresConnection {
+    fn establish_connection(&self) -> PgConnection {
+        dotenv().ok();
+
+        let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+        PgConnection::establish(&database_url)
+            .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+    }
 }
