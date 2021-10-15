@@ -1,13 +1,11 @@
-#[cfg(test)]
-use mockall::automock;
 use waiter_di::{component, profiles, provides, Component, Provider};
 
 use crate::{
     di::di_container,
-    persistence::database::connection::TPostgresConnection,
+    persistence::database::{
+        connection_establisher::TConnectionEstablisher, embedded_migrations::TEmbeddedMigrations,
+    },
 };
-
-embed_migrations!("src/persistence/database/migrations");
 
 pub trait TDatabaseMigrator: Send + Sync {
     fn migrate_database(&self);
@@ -15,7 +13,8 @@ pub trait TDatabaseMigrator: Send + Sync {
 
 #[component]
 pub struct DatabaseMigrator {
-    postgres_connection: Box<dyn TPostgresConnection>,
+    postgres_connection: Box<dyn TConnectionEstablisher>,
+    embedded_migrations: Box<dyn TEmbeddedMigrations>,
 }
 
 impl Default for DatabaseMigrator {
@@ -31,8 +30,14 @@ impl DatabaseMigrator {
     }
 
     #[cfg(test)]
-    pub fn construct(postgresConnection: Box<dyn TPostgresConnection>) -> Self {
-        DatabaseMigrator { postgres_connection: postgresConnection }
+    pub fn construct(
+        postgres_connection: Box<dyn TConnectionEstablisher>,
+        embedded_migrations: Box<dyn TEmbeddedMigrations>,
+    ) -> Self {
+        DatabaseMigrator {
+            postgres_connection,
+            embedded_migrations,
+        }
     }
 }
 
@@ -40,7 +45,7 @@ impl DatabaseMigrator {
 impl TDatabaseMigrator for DatabaseMigrator {
     fn migrate_database(&self) {
         let connection = self.postgres_connection.establish_connection();
-        let migration_result = embedded_migrations::run(&connection);
+        let migration_result = self.embedded_migrations.run(&connection);
         match migration_result {
             Ok(_) => (),
             Err(migration_error) => panic!("Could not migrate database: {:?}", migration_error),

@@ -5,7 +5,10 @@ use crate::{
     domain::{
         entities::user::User, services::sign_up::register_service::TRegisterServicePersistence,
     },
-    persistence::{database::connection_pool::TPostgresConnectionPool, entities::user_entity::UserEntity, database::schema::*},
+    persistence::{
+        database::connection_pool::TPostgresConnectionPool, database::schema::*,
+        entities::user_entity::UserEntity,
+    },
 };
 
 #[component]

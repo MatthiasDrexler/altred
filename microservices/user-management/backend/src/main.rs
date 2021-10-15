@@ -1,4 +1,4 @@
-use crate::persistence::database::database_migrator::{DatabaseMigrator, TDatabaseMigrator};
+use crate::persistence::database::migrator::{DatabaseMigrator, TDatabaseMigrator};
 
 mod controller;
 mod di;

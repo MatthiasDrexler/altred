@@ -8,33 +8,33 @@ use waiter_di::{component, profiles, provides, Component, Provider};
 use crate::di::di_container;
 
 #[cfg_attr(test, automock)]
-pub trait TPostgresConnection: Send + Sync {
+pub trait TConnectionEstablisher: Send + Sync {
     fn establish_connection(&self) -> PgConnection;
 }
 
 #[component]
-pub struct PostgresConnection {}
+pub struct ConnectionEstablisher {}
 
-impl Default for PostgresConnection {
+impl Default for ConnectionEstablisher {
     fn default() -> Self {
-        PostgresConnection::new()
+        ConnectionEstablisher::new()
     }
 }
 
-impl PostgresConnection {
+impl ConnectionEstablisher {
     pub fn new() -> Self {
         let mut container = di_container::get::<profiles::Default>();
-        Provider::<PostgresConnection>::create(&mut container)
+        Provider::<ConnectionEstablisher>::create(&mut container)
     }
 
     #[cfg(test)]
     pub fn construct() -> Self {
-        PostgresConnection {}
+        ConnectionEstablisher {}
     }
 }
 
 #[provides]
-impl TPostgresConnection for PostgresConnection {
+impl TConnectionEstablisher for ConnectionEstablisher {
     fn establish_connection(&self) -> PgConnection {
         dotenv().ok();
 

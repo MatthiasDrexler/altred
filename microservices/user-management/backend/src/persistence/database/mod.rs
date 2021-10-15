@@ -1,4 +1,5 @@
-pub mod schema;
-pub mod connection;
+pub mod connection_establisher;
 pub mod connection_pool;
-pub mod database_migrator;
+pub mod embedded_migrations;
+pub mod migrator;
+pub mod schema;
