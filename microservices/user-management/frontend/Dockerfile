@@ -1,19 +1,20 @@
 FROM node:16-alpine as builder
-WORKDIR /svelte/src/user-management
-COPY src/ ./src/
-COPY static/ ./static/
-COPY package.json ./
-COPY .babelrc ./
-COPY svelte.config.js ./
-COPY tsconfig.json ./
-RUN yarn install
-RUN yarn build
+WORKDIR /svelte/src/microservices/user-management/frontend
+COPY user-management/frontend/ ./
+RUN yarn install && yarn build
+
+FROM node:16-alpine as packager
+WORKDIR /svelte/src/microservices/user-management/frontend
+COPY --from=builder /svelte/src/microservices/user-management/frontend/package.json ./
+COPY --from=builder /svelte/src/microservices/user-management/frontend/target/ ./target/
+RUN yarn install --production
 
 FROM node:16-alpine
 WORKDIR /svelte/user-management
-COPY --from=builder /svelte/src/user-management/package.json ./
-COPY --from=builder /svelte/src/user-management/target/ ./target/
+COPY --from=packager /svelte/src/microservices/user-management/frontend/package.json ./
+COPY --from=packager /svelte/src/microservices/user-management/frontend/node_modules ./node_modules/
+COPY --from=packager /svelte/src/microservices/user-management/frontend/target/ ./target/
 RUN yarn install --production
-RUN addgroup -S nonrootgroup && adduser -S nonrootuser -G nonrootgroup
+RUN addgroup --system nonrootgroup && adduser --system nonrootuser --ingroup nonrootgroup
 USER nonrootuser
 CMD ["node", "target/index.js"]

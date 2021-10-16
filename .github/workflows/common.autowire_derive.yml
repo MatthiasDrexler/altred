@@ -1,0 +1,37 @@
+name: Common (autowire_derive)
+on:
+  push:
+    paths:
+      - "microservices/common/backend/autowire_derive/**"
+      - ".github/workflows/common.autowire_derive.yml"
+  pull_request:
+    paths:
+      - "microservices/common/backend/autowire_derive/**"
+      - ".github/workflows/common.autowire_derive.yml"
+jobs:
+  Common_autowire_derive_Check:
+    name: Common - autowire_derive - Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - name: Lint autowire_derive library
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --manifest-path microservices/common/backend/autowire_derive/Cargo.toml -- --check
+      - name: Analyze autowire_derive library
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --manifest-path microservices/common/backend/autowire_derive/Cargo.toml --all-targets -- -D warnings
+      - name: Test autowire_derive library
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --manifest-path microservices/common/backend/autowire_derive/Cargo.toml

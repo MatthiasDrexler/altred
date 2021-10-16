@@ -126,7 +126,7 @@ mod tests {
         let normalized_generated_token_stream = generated_token_stream.to_string();
         let normalized_expected_token_stream = expected_output.to_string();
         assert_that(&normalized_generated_token_stream)
-            .is_equal_to(String::from(normalized_expected_token_stream));
+            .is_equal_to(&normalized_expected_token_stream);
     }
 
     #[test]
@@ -150,6 +150,6 @@ mod tests {
         let normalized_generated_token_stream = generated_token_stream.to_string();
         let normalized_expected_token_stream = expected_output.to_string();
         assert_that(&normalized_generated_token_stream)
-            .is_equal_to(String::from(normalized_expected_token_stream));
+            .is_equal_to(&normalized_expected_token_stream);
     }
 }
