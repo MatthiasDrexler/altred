@@ -1,5 +1,8 @@
 # Do not copy any files
 **/*.*
+**/target/
+**/node_modules/
+**/cypress/
 # Except for (backend)
 !*/*/src/**
 !*/*/Cargo*
