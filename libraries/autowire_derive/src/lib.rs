@@ -23,7 +23,10 @@ fn impl_full_autowiring_derive(syntax_tree: &DeriveInput) -> proc_macro2::TokenS
     let name = &syntax_tree.ident;
     let visibility = &syntax_tree.vis;
     let fields = match &syntax_tree.data {
-        Data::Struct(DataStruct { fields: Fields::Named(fields), .. }) => &fields.named,
+        Data::Struct(DataStruct {
+            fields: Fields::Named(fields),
+            ..
+        }) => &fields.named,
         _ => panic!("expected a struct with named fields"),
     };
     let fields_in_function_signature = fields.iter().map(|field| &field.ident);
@@ -52,7 +55,6 @@ fn impl_full_autowiring_derive(syntax_tree: &DeriveInput) -> proc_macro2::TokenS
         }
     }
 }
-
 
 #[proc_macro_derive(Autowire)]
 pub fn autowiring_derive(input: TokenStream) -> TokenStream {
@@ -131,8 +133,8 @@ mod tests {
     fn impl_autowiring_derive_should_create_autowire_function() {
         let input: proc_macro2::TokenStream = "\
             pub(crate) struct ToAutowire {}"
-        .parse()
-        .unwrap();
+            .parse()
+            .unwrap();
         let expected_output: proc_macro2::TokenStream = "\
             impl ToAutowire {
                 pub(crate) fn autowire() -> Self {

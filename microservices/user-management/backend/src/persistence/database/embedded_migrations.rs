@@ -14,26 +14,8 @@ pub(crate) trait TEmbeddedMigrations: Send + Sync {
 }
 
 #[component]
+#[derive(FullAutowire)]
 pub(crate) struct EmbeddedMigrations {}
-
-impl Default for EmbeddedMigrations {
-    fn default() -> Self {
-        EmbeddedMigrations::new()
-    }
-}
-
-impl EmbeddedMigrations {
-    pub(crate) fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<EmbeddedMigrations>::create(&mut container)
-    }
-
-    #[cfg(test)]
-    #[allow(dead_code)]
-    pub(crate) fn construct() -> Self {
-        EmbeddedMigrations {}
-    }
-}
 
 #[provides]
 impl TEmbeddedMigrations for EmbeddedMigrations {

@@ -19,14 +19,9 @@ pub(crate) trait TRegisterServicePersistence: Send + Sync {
 }
 
 #[component]
+#[derive(FullAutowire)]
 pub(crate) struct RegisterService {
     register_service_persistence: Box<dyn TRegisterServicePersistence>,
-}
-
-impl Default for RegisterService {
-    fn default() -> Self {
-        RegisterService::new()
-    }
 }
 
 #[provides]
@@ -42,20 +37,6 @@ impl TRegisterService for RegisterService {
         };
 
         self.register_service_persistence.register_user(&user)
-    }
-}
-
-impl RegisterService {
-    pub(crate) fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<RegisterService>::create(&mut container)
-    }
-
-    #[cfg(test)]
-    pub(crate) fn construct(persistence: Box<dyn TRegisterServicePersistence>) -> Self {
-        RegisterService {
-            register_service_persistence: persistence,
-        }
     }
 }
 

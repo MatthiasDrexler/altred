@@ -18,29 +18,12 @@ pub(crate) async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> Htt
 }
 
 #[component]
+#[derive(FullAutowire)]
 pub(crate) struct SignUpEndpoint {
     register_service: Box<dyn TRegisterService>,
 }
 
-impl Default for SignUpEndpoint {
-    fn default() -> Self {
-        SignUpEndpoint::new()
-    }
-}
-
 impl SignUpEndpoint {
-    pub(crate) fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<SignUpEndpoint>::create(&mut container)
-    }
-
-    #[cfg(test)]
-    pub(crate) fn construct(service: Box<dyn TRegisterService>) -> Self {
-        SignUpEndpoint {
-            register_service: service,
-        }
-    }
-
     pub(crate) fn sign_up(&self, user_sign_up_dto: web::Json<UserToSignUpDto>) -> HttpResponse {
         let user = convert_from_user_sign_up_dto(&user_sign_up_dto.into_inner());
 
