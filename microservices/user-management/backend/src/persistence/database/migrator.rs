@@ -12,34 +12,10 @@ pub(crate) trait TDatabaseMigrator: Send + Sync {
 }
 
 #[component]
+#[derive(FullAutowire)]
 pub(crate) struct DatabaseMigrator {
     postgres_connection: Box<dyn TConnectionEstablisher>,
     embedded_migrations: Box<dyn TEmbeddedMigrations>,
-}
-
-impl Default for DatabaseMigrator {
-    fn default() -> Self {
-        DatabaseMigrator::new()
-    }
-}
-
-impl DatabaseMigrator {
-    pub(crate) fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<DatabaseMigrator>::create(&mut container)
-    }
-
-    #[cfg(test)]
-    #[allow(dead_code)]
-    pub(crate) fn construct(
-        postgres_connection: Box<dyn TConnectionEstablisher>,
-        embedded_migrations: Box<dyn TEmbeddedMigrations>,
-    ) -> Self {
-        DatabaseMigrator {
-            postgres_connection,
-            embedded_migrations,
-        }
-    }
 }
 
 #[provides]

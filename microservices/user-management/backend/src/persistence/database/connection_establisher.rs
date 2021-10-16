@@ -13,26 +13,8 @@ pub(crate) trait TConnectionEstablisher: Send + Sync {
 }
 
 #[component]
-#[derive(Autowire)]
+#[derive(FullAutowire)]
 pub(crate) struct ConnectionEstablisher {}
-
-impl Default for ConnectionEstablisher {
-    fn default() -> Self {
-        ConnectionEstablisher::new()
-    }
-}
-
-impl ConnectionEstablisher {
-    pub(crate) fn new() -> Self {
-        ConnectionEstablisher::autowire()
-    }
-
-    #[cfg(test)]
-    #[allow(dead_code)]
-    pub(crate) fn construct() -> Self {
-        ConnectionEstablisher {}
-    }
-}
 
 #[provides]
 impl TConnectionEstablisher for ConnectionEstablisher {
