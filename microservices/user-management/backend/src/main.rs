@@ -9,6 +9,8 @@ mod persistence;
 extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
+#[macro_use]
+extern crate autowire_derive;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

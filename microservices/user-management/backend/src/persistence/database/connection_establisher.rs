@@ -13,6 +13,7 @@ pub(crate) trait TConnectionEstablisher: Send + Sync {
 }
 
 #[component]
+#[derive(Autowire)]
 pub(crate) struct ConnectionEstablisher {}
 
 impl Default for ConnectionEstablisher {
@@ -23,8 +24,7 @@ impl Default for ConnectionEstablisher {
 
 impl ConnectionEstablisher {
     pub(crate) fn new() -> Self {
-        let mut container = di_container::get::<profiles::Default>();
-        Provider::<ConnectionEstablisher>::create(&mut container)
+        ConnectionEstablisher::autowire()
     }
 
     #[cfg(test)]
