@@ -50,6 +50,9 @@ jobs:
         run: heroku container:login
       - name: Push Docker image to Heroku
         working-directory: ./microservices/user-management/frontend
-        run: heroku container:push web --app ${{ secrets.HEROKU_USER_MANAGEMENT_FRONTEND_NAME }}
+        run: |
+          heroku container:push web \
+            --app ${{ secrets.HEROKU_USER_MANAGEMENT_FRONTEND_NAME }} \
+            --context-path ../..
       - name: Release on Heroku
         run: heroku container:release --app ${{ secrets.HEROKU_USER_MANAGEMENT_FRONTEND_NAME }} web
