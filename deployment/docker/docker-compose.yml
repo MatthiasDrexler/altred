@@ -128,22 +128,22 @@ services:
   ###################
   # altred services #
   ###################
-  # user-management-backend:
-  #   container_name: user-management-backend
-  #   build:
-  #     context: ${MICROSERVICES_DIR}/user-management/backend
-  #     dockerfile: Dockerfile
-  #     args:
-  #       DATABASE_URL: postgres://${SERVICE_USERNAME}:${SERVICE_PASSWORD}@postgres:${POSTGRES_PORT}/altred-user-management
-  #   extends:
-  #     file: docker-compose.networksettings.yml
-  #     service: internal-network
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     PORT: 8080
-  #     ALTRED_UM_KEYCLOAK_REALM_PUBLIC_KEY_URL: ${KEYCLOAK_BASE_URL}/auth/realms/altred-default
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.um-backend.rule=Host(`${UM_BACKEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
-  #     - "traefik.http.services.um-backend.loadbalancer.server.port=8080"
+  user-management-backend:
+    container_name: user-management-backend
+    build:
+      context: ${MICROSERVICES_DIR}
+      dockerfile: user-management/backend/Dockerfile.Distroless
+      args:
+        DATABASE_URL: postgres://${SERVICE_USERNAME}:${SERVICE_PASSWORD}@postgres:${POSTGRES_PORT}/altred-user-management
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    depends_on:
+      - postgres
+    environment:
+      PORT: 8080
+      ALTRED_UM_KEYCLOAK_REALM_PUBLIC_KEY_URL: ${KEYCLOAK_BASE_URL}/auth/realms/altred-default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.um-backend.rule=Host(`${UM_BACKEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.services.um-backend.loadbalancer.server.port=8080"
