@@ -12,7 +12,7 @@ pub(crate) trait TDatabaseMigrator: Send + Sync {
 }
 
 #[component]
-#[derive(FullAutowire)]
+#[derive(AutowireWithConstructor)]
 pub(crate) struct DatabaseMigrator {
     postgres_connection: Box<dyn TConnectionEstablisher>,
     embedded_migrations: Box<dyn TEmbeddedMigrations>,

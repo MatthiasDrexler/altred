@@ -58,6 +58,7 @@ jobs:
         run: |
           heroku container:push web \
             --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} \
-            --arg DATABASE_URL=`heroku config:get DATABASE_URL -a altred-user-management-backend`
+            --context-path ../.. \
+            --arg DATABASE_URL=`heroku config:get DATABASE_URL --app altred-user-management-backend`
       - name: Release on Heroku
         run: heroku container:release --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} web

@@ -13,7 +13,7 @@ pub(crate) trait TConnectionEstablisher: Send + Sync {
 }
 
 #[component]
-#[derive(FullAutowire)]
+#[derive(AutowireWithConstructor)]
 pub(crate) struct ConnectionEstablisher {}
 
 #[provides]

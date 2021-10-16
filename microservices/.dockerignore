@@ -1,0 +1,14 @@
+# Do not copy any files
+**/*.*
+# Except for (backend)
+!*/*/src/**
+!*/*/Cargo*
+!*/*/*/src/**
+!*/*/*/Cargo*
+# Except for (frontend)
+!*/*/src/**
+!*/*/static/**
+!*/*/package.json
+!*/*/.babelrc
+!*/*/svelte.config.js
+!*/*/tsconfig.json

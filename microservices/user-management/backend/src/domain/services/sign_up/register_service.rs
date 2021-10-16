@@ -19,7 +19,7 @@ pub(crate) trait TRegisterServicePersistence: Send + Sync {
 }
 
 #[component]
-#[derive(FullAutowire)]
+#[derive(AutowireWithConstructor)]
 pub(crate) struct RegisterService {
     register_service_persistence: Box<dyn TRegisterServicePersistence>,
 }
