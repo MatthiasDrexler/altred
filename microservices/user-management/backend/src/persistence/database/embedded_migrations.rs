@@ -14,7 +14,7 @@ pub(crate) trait TEmbeddedMigrations: Send + Sync {
 }
 
 #[component]
-#[derive(FullAutowire)]
+#[derive(AutowireWithConstructor)]
 pub(crate) struct EmbeddedMigrations {}
 
 #[provides]

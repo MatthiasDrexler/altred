@@ -18,7 +18,7 @@ pub(crate) async fn sign_up(user_sign_up_dto: web::Json<UserToSignUpDto>) -> Htt
 }
 
 #[component]
-#[derive(FullAutowire)]
+#[derive(AutowireWithConstructor)]
 pub(crate) struct SignUpEndpoint {
     register_service: Box<dyn TRegisterService>,
 }

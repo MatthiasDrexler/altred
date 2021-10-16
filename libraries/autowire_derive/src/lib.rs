@@ -4,7 +4,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{self, Data, DataStruct, DeriveInput, Fields};
 
-#[proc_macro_derive(FullAutowire)]
+#[proc_macro_derive(AutowireWithConstructor)]
 pub fn full_autowiring_derive(input: TokenStream) -> TokenStream {
     let syntax_tree: DeriveInput = syn::parse(input).unwrap();
     let generated_output = impl_full_autowiring_derive(&syntax_tree);
