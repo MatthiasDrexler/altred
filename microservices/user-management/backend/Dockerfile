@@ -1,8 +1,11 @@
 FROM rust:slim-bullseye as builder
-WORKDIR /rust/src/user-management
+WORKDIR /rust/src/altred/microservices/common/backend/autowire_derive
+COPY common/backend/autowire_derive/src/ ./src/
+COPY common/backend/autowire_derive/Cargo.* ./
+WORKDIR /rust/src/altred/microservices/user-management/backend
+COPY user-management/backend/src/ ./src/
+COPY user-management/backend/Cargo.* ./
 RUN apt-get update && apt-get install --yes libpq5 libpq-dev
-COPY src/ ./src/
-COPY Cargo.* ./
 RUN cargo install --path .
 
 FROM rust:slim-bullseye

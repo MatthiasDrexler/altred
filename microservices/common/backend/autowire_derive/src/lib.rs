@@ -5,21 +5,21 @@ use quote::quote;
 use syn::{self, Data, DataStruct, DeriveInput, Fields};
 
 #[proc_macro_derive(AutowireWithConstructor)]
-pub fn full_autowiring_derive(input: TokenStream) -> TokenStream {
+pub fn autowire_with_constructor_derive(input: TokenStream) -> TokenStream {
     let syntax_tree: DeriveInput = syn::parse(input).unwrap();
-    let generated_output = impl_full_autowiring_derive(&syntax_tree);
+    let generated_output = impl_autowire_with_constructor_derive(&syntax_tree);
     generated_output.into()
 }
 
 #[cfg(test)]
-pub(crate) fn full_autowiring_derive_test_adapter(
+pub(crate) fn autowire_with_constructor_derive_test_adapter(
     input: proc_macro2::TokenStream,
 ) -> proc_macro2::TokenStream {
     let syntax_tree: DeriveInput = syn::parse2(input).unwrap();
-    impl_full_autowiring_derive(&syntax_tree)
+    impl_autowire_with_constructor_derive(&syntax_tree)
 }
 
-fn impl_full_autowiring_derive(syntax_tree: &DeriveInput) -> proc_macro2::TokenStream {
+fn impl_autowire_with_constructor_derive(syntax_tree: &DeriveInput) -> proc_macro2::TokenStream {
     let name = &syntax_tree.ident;
     let visibility = &syntax_tree.vis;
     let fields = match &syntax_tree.data {
@@ -121,7 +121,7 @@ mod tests {
         .parse()
         .unwrap();
 
-        let generated_token_stream = full_autowiring_derive_test_adapter(input);
+        let generated_token_stream = autowire_with_constructor_derive_test_adapter(input);
 
         let normalized_generated_token_stream = generated_token_stream.to_string();
         let normalized_expected_token_stream = expected_output.to_string();
