@@ -128,6 +128,21 @@ services:
   ###################
   # altred services #
   ###################
+  user-management-frontend:
+    container_name: user-management-fronend
+    build:
+      context: ${MICROSERVICES_DIR}
+      dockerfile: user-management/frontend/Dockerfile.Distroless
+    extends:
+      file: docker-compose.networksettings.yml
+      service: internal-network
+    environment:
+      PORT: 8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.um-frontend.rule=Host(`${UM_FRONTEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
+      - "traefik.http.services.um-frontend.loadbalancer.server.port=8080"
+
   user-management-backend:
     container_name: user-management-backend
     build:
