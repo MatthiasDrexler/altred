@@ -12,21 +12,21 @@ lazy_static! {
         Mutex::new(establish_connection_pool());
 }
 
-pub trait TConnectionPool: Send + Sync {
+pub(crate) trait TPostgresConnectionPool: Send + Sync {
     fn get_connection(&self) -> PooledConnection<ConnectionManager<PgConnection>>;
 }
 
 #[component]
-pub struct ConnectionPool {}
+pub(crate) struct PostgresConnectionPool {}
 
 #[provides]
-impl TConnectionPool for ConnectionPool {
+impl TPostgresConnectionPool for PostgresConnectionPool {
     fn get_connection(&self) -> PooledConnection<ConnectionManager<PgConnection>> {
         POOL.lock().unwrap().clone().get().unwrap()
     }
 }
 
-pub fn establish_connection_pool() -> Pool<ConnectionManager<PgConnection>> {
+pub(crate) fn establish_connection_pool() -> Pool<ConnectionManager<PgConnection>> {
     dotenv().ok();
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");

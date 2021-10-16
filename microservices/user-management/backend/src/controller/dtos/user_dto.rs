@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct UserDto {
+pub(crate) struct UserDto {
     pub email: String,
     pub username: String,
     pub hashed_password: String,
