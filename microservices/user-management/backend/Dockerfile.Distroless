@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install --yes libpq5 libpq-dev
 RUN cargo install --path .
 RUN mkdir sharedlibs && ldd /usr/local/cargo/bin/user-management | awk 'NF == 4 { system("cp " $3 " sharedlibs/") }'
 
-FROM gcr.io/distroless/cc-debian10
+FROM gcr.io/distroless/cc-debian10 as runner
 COPY --from=builder /rust/src/altred/microservices/user-management/backend/sharedlibs/* /usr/lib/x86_64-linux-gnu/
 COPY --from=builder /usr/local/cargo/bin/user-management /
 ARG DATABASE_URL

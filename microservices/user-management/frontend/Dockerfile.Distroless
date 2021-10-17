@@ -9,7 +9,7 @@ COPY --from=builder /svelte/src/microservices/user-management/frontend/package.j
 COPY --from=builder /svelte/src/microservices/user-management/frontend/target/ ./target/
 RUN yarn install --production
 
-FROM gcr.io/distroless/nodejs:16
+FROM gcr.io/distroless/nodejs:16 as runner
 COPY --from=packager /svelte/src/microservices/user-management/frontend/package.json ./
 COPY --from=packager /svelte/src/microservices/user-management/frontend/target/ ./target/
 COPY --from=packager /svelte/src/microservices/user-management/frontend/node_modules/ ./node_modules/

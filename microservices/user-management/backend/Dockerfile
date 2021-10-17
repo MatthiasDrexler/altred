@@ -6,7 +6,7 @@ COPY user-management/backend/ ./
 RUN apt-get update && apt-get install --yes libpq5 libpq-dev
 RUN cargo install --path .
 
-FROM rust:slim-bullseye
+FROM rust:slim-bullseye as runner
 COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/user-management
 RUN apt-get update && apt-get install --yes libpq5 libpq-dev
 RUN useradd -m nonrootuser
