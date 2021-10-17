@@ -3,7 +3,9 @@
 **/target/
 **/node_modules/
 **/cypress/
+**/Dockerfile*
 # Except for (backend)
+!*/*/.cargo/**
 !*/*/src/**
 !*/*/Cargo*
 !*/*/*/src/**

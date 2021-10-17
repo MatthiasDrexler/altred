@@ -17,6 +17,7 @@ diesel_migrations = "1.4.0"
 dotenv = "0.15.0"
 lazy_static = "1.4.0"
 serde = "1.0.130"
+openssl = "0.10.36"
 waiter_di = { version = "1.6.5", features = ["async"] }
 
 [dev-dependencies]

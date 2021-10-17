@@ -5,6 +5,7 @@ mod di;
 mod domain;
 mod persistence;
 
+extern crate openssl;
 #[macro_use]
 extern crate diesel;
 #[macro_use]
