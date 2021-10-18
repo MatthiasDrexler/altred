@@ -5,7 +5,7 @@
 <Grid>
   <Row>
     <Column>
-      <h1>User Management</h1>
+      <h1>Log in</h1>
     </Column>
   </Row>
 </Grid>
