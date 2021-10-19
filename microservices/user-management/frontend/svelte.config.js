@@ -20,6 +20,10 @@ const config = {
         port: "PORT",
       },
     }),
+
+    vite: () => ({
+      envPrefix: "ALTRED_",
+    }),
   },
 }
 
