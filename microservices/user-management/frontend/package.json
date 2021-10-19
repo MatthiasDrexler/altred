@@ -29,7 +29,6 @@
     "babel-jest": "^27.0.0",
     "carbon-components-svelte": "^0.46.0",
     "carbon-icons-svelte": "^10.38.0",
-    "carbon-preprocess-svelte": "^0.6.0",
     "cypress": "^8.5.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
