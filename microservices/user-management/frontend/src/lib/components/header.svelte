@@ -1,10 +1,12 @@
 <script lang="ts">
+import { Names } from "$lib/domain/configuration/names";
+import { Urls } from "$lib/domain/configuration/urls";
+
   import {
     Button,
     Header,
     HeaderAction,
     HeaderActionLink,
-    HeaderGlobalAction,
     HeaderNav,
     HeaderPanelDivider,
     HeaderPanelLink,
@@ -23,7 +25,7 @@
   let isSideNavOpen = false
 </script>
 
-<Header href="/" company="altred" platformName="User Management" bind:isSideNavOpen>
+<Header href="/" company={Names.SUITE_NAME} platformName={Names.APPLICATION_NAME} bind:isSideNavOpen>
   <div slot="skip-to-content">
     <SkipToContent />
   </div>
@@ -47,7 +49,7 @@
       <HeaderPanelLinks>
         <HeaderPanelLink>Dashboard</HeaderPanelLink>
         <HeaderPanelDivider>Services</HeaderPanelDivider>
-        <HeaderPanelLink>User Management</HeaderPanelLink>
+        <HeaderPanelLink href={Urls.BaseUrl}>{Names.APPLICATION_NAME}</HeaderPanelLink>
       </HeaderPanelLinks>
     </HeaderAction>
   </HeaderUtilities>
