@@ -15,8 +15,8 @@
     SideNavLink,
     SkipToContent,
   } from "carbon-components-svelte"
-  import Attachment20 from "carbon-icons-svelte/lib/Attachment20";
-  import Person20 from "carbon-icons-svelte/lib/Person20";
+  import Attachment20 from "carbon-icons-svelte/lib/Attachment20"
+  import Person20 from "carbon-icons-svelte/lib/Person20"
 
   let loggedIn = false
 
