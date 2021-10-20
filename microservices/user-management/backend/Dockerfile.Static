@@ -12,6 +12,4 @@ WORKDIR /usr/bin/
 COPY --from=builder /rust/src/altred/microservices/user-management/backend/target/x86_64-unknown-linux-musl/release/user-management /usr/bin/user-management
 RUN addgroup --system nonrootgroup && adduser --system nonrootuser --ingroup nonrootgroup
 USER nonrootuser
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
 CMD ["user-management"]

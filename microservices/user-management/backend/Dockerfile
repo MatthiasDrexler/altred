@@ -11,6 +11,4 @@ COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/us
 RUN apt-get update && apt-get install --yes libpq5 libpq-dev
 RUN useradd -m nonrootuser
 USER nonrootuser
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
 CMD ["user-management"]

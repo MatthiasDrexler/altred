@@ -55,10 +55,6 @@ jobs:
         run: heroku container:login
       - name: Push Docker image to Heroku
         working-directory: ./microservices/user-management/backend
-        run: |
-          heroku container:push web \
-            --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} \
-            --context-path ../.. \
-            --arg DATABASE_URL=`heroku config:get DATABASE_URL --app altred-user-management-backend`
+        run: heroku container:push web --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} --context-path ../..
       - name: Release on Heroku
         run: heroku container:release --app ${{ secrets.HEROKU_USER_MANAGEMENT_BACKEND_NAME }} web
