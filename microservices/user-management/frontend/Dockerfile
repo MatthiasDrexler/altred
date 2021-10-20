@@ -12,7 +12,7 @@ RUN yarn install --production
 FROM node:16-alpine as runner
 WORKDIR /svelte/user-management
 COPY --from=packager /svelte/src/microservices/user-management/frontend/package.json ./
-COPY --from=packager /svelte/src/microservices/user-management/frontend/node_modules ./node_modules/
+COPY --from=packager /svelte/src/microservices/user-management/frontend/node_modules/ ./node_modules/
 COPY --from=packager /svelte/src/microservices/user-management/frontend/target/ ./target/
 RUN yarn install --production
 RUN addgroup --system nonrootgroup && adduser --system nonrootuser --ingroup nonrootgroup

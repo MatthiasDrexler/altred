@@ -1,6 +1,6 @@
 <script lang="ts">
-import { Names } from "$lib/domain/configuration/names";
-import { Urls } from "$lib/domain/configuration/urls";
+  import { Names } from "$lib/domain/configuration/names"
+  import { Urls } from "$lib/domain/configuration/urls"
 
   import {
     Button,
@@ -49,7 +49,7 @@ import { Urls } from "$lib/domain/configuration/urls";
       <HeaderPanelLinks>
         <HeaderPanelLink>Dashboard</HeaderPanelLink>
         <HeaderPanelDivider>Services</HeaderPanelDivider>
-        <HeaderPanelLink href={Urls.BaseUrl}>{Names.APPLICATION_NAME}</HeaderPanelLink>
+        <HeaderPanelLink href={Urls.BASE_URL}>{Names.APPLICATION_NAME}</HeaderPanelLink>
       </HeaderPanelLinks>
     </HeaderAction>
   </HeaderUtilities>
