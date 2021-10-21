@@ -15,18 +15,7 @@
   // Set *default* container specific settings.json values on container create.
   "settings": {
     "svelte.enable-ts-plugin": true,
-    "[typescript]": {
-      "editor.defaultFormatter": "remimarsal.prettier-now"
-    },
-    "[svelte]": {
-      "editor.defaultFormatter": "remimarsal.prettier-now"
-    },
-    "[html]": {
-      "editor.defaultFormatter": "remimarsal.prettier-now"
-    },
-    "[css]": {
-      "editor.defaultFormatter": "remimarsal.prettier-now"
-    }
+    "typescript.updateImportsOnFileMove.enabled": "always"
   },
 
   // Add the IDs of extensions you want installed when the container is created.

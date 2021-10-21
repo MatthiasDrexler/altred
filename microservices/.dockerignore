@@ -1,6 +1,13 @@
 # Do not copy any files
 **/*.*
+**/.devcontainer/
+**/.svelte-kit/
+**/cypress/
+**/node_modules/
+**/target/
+**/Dockerfile*
 # Except for (backend)
+!*/*/.cargo/**
 !*/*/src/**
 !*/*/Cargo*
 !*/*/*/src/**
@@ -9,6 +16,6 @@
 !*/*/src/**
 !*/*/static/**
 !*/*/package.json
-!*/*/.babelrc
+!*/*/babel.config.json
 !*/*/svelte.config.js
 !*/*/tsconfig.json

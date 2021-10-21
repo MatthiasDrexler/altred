@@ -9,7 +9,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --ignore-path .eslintignore --check --plugin-search-dir=. . && eslint --ignore-path .eslintignore .",
     "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest test src --config jest.config.json",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json",
     "test:watch": "npm run test -- --watch",
     "cypress:run": "npx cypress run",
     "cypress:open": "TS_NODE_PROJECT=0 npx cypress open"
@@ -18,7 +18,7 @@
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.0",
     "@sveltejs/adapter-node": "^1.0.0-next.53",
-    "@sveltejs/kit": "next",
+    "@sveltejs/kit": "^1.0.0-next.186",
     "@testing-library/jest-dom": "^5.14.0",
     "@testing-library/svelte": "^3.0.0",
     "@types/cookie": "^0.4.1",
@@ -27,6 +27,8 @@
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "babel-jest": "^27.0.0",
+    "carbon-components-svelte": "^0.46.0",
+    "carbon-icons-svelte": "^10.38.0",
     "cypress": "^8.5.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -44,8 +46,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource/fira-mono": "^4.5.0",
-    "@lukeed/uuid": "^2.0.0",
-    "cookie": "^0.4.1"
+    "cookie": "^0.4.1",
+    "dotenv": "^10.0.0"
   }
 }

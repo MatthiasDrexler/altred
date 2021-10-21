@@ -1,16 +1,15 @@
-FROM rust:slim-bullseye as builder
+FROM ekidd/rust-musl-builder:stable as builder
 WORKDIR /rust/src/altred/microservices/common/backend/
 COPY common/backend/ ./
+RUN sudo chown -R rust:rust .
 WORKDIR /rust/src/altred/microservices/user-management/backend
 COPY user-management/backend/ ./
-RUN apt-get update && apt-get install --yes libpq5 libpq-dev
-RUN cargo install --path .
+RUN sudo chown -R rust:rust .
+RUN RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86_64-unknown-linux-musl
 
-FROM rust:slim-bullseye
-COPY --from=builder /usr/local/cargo/bin/user-management /usr/local/cargo/bin/user-management
-RUN apt-get update && apt-get install --yes libpq5 libpq-dev
-RUN useradd -m nonrootuser
+FROM alpine:3 as runner
+WORKDIR /usr/bin/
+COPY --from=builder /rust/src/altred/microservices/user-management/backend/target/x86_64-unknown-linux-musl/release/user-management /usr/bin/user-management
+RUN addgroup --system nonrootgroup && adduser --system nonrootuser --ingroup nonrootgroup
 USER nonrootuser
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
 CMD ["user-management"]
