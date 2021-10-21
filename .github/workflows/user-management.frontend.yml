@@ -46,6 +46,11 @@ jobs:
           echo "machine git.heroku.com" >> $HOME/.netrc
           echo "  login ${{ secrets.HEROKU_USERNAME }}" >> $HOME/.netrc
           echo "  password ${{ secrets.HEROKU_AUTHORIZATION_TOKEN }}" >> $HOME/.netrc
+      - name: Set environment variables
+        run: |
+          heroku heroku config:set ALTRED_UM_SUITE_NAME=altred
+          heroku heroku config:set ALTRED_UM_APPLICATION_NAME=User Management
+          heroku heroku config:set ALTRED_UM_FRONTEND_BASE_URL=https://altred-user-management-frntend.herokuapp.com
       - name: Log in at Heroku container registry
         run: heroku container:login
       - name: Push Docker image to Heroku

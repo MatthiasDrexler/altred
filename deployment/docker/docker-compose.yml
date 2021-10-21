@@ -140,7 +140,7 @@ services:
       PORT: 80
       ALTRED_UM_SUITE_NAME: altred
       ALTRED_UM_APPLICATION_NAME: User Management
-      ALTRED_UM_BASE_URL: http://${UM_FRONTEND_HOSTNAME}.${CLUSTER_DOMAIN_WITH_PORT}
+      ALTRED_UM_FRONTEND_BASE_URL: http://${UM_FRONTEND_HOSTNAME}.${CLUSTER_DOMAIN_WITH_PORT}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.um-frontend.rule=Host(`${UM_FRONTEND_HOSTNAME}.${CLUSTER_DOMAIN}`)"
