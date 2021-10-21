@@ -7,7 +7,7 @@ COPY user-management/backend/ ./
 RUN sudo chown -R rust:rust .
 RUN RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86_64-unknown-linux-musl
 
-FROM gcr.io/distroless/cc-debian10 as runner
+FROM gcr.io/distroless/static-debian10 as runner
 WORKDIR /
 COPY --from=builder /rust/src/altred/microservices/user-management/backend/target/x86_64-unknown-linux-musl/release/user-management /user-management
 CMD ["./user-management"]
