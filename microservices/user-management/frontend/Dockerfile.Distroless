@@ -14,4 +14,5 @@ WORKDIR /
 COPY --from=packager /svelte/src/microservices/user-management/frontend/package.json ./
 COPY --from=packager /svelte/src/microservices/user-management/frontend/node_modules/ ./node_modules/
 COPY --from=packager /svelte/src/microservices/user-management/frontend/target/ ./target/
+USER nonroot
 CMD ["target/index.js"]

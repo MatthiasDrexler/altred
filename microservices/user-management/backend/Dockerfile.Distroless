@@ -10,4 +10,5 @@ RUN RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86
 FROM gcr.io/distroless/static-debian10 as runner
 WORKDIR /
 COPY --from=builder /rust/src/altred/microservices/user-management/backend/target/x86_64-unknown-linux-musl/release/user-management /user-management
+USER nonroot
 CMD ["./user-management"]
