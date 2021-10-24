@@ -1,11 +1,15 @@
 export class AccessToken {
-  constructor(private _accessToken: string) {}
+  constructor(private _tokenType: string, private _accessToken: string, private _expiresIn: number) {}
+
+  public get tokenType(): string {
+    return this._tokenType
+  }
 
   public get accessToken(): string {
     return this._accessToken
   }
 
-  public set accessToken(value: string) {
-    this._accessToken = value
+  public get expiresIn(): number {
+    return this._expiresIn
   }
 }

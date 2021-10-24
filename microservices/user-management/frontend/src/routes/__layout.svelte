@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   export const load = async ({ fetch }): Promise<{ props }> => {
-    console.log(typeof fetch)
     const fetchedNames = await fetch("names")
     const names = await fetchedNames.json()
 
@@ -41,7 +40,7 @@
   export let names
   export let urls
 
-  let loggedIn = false
+  let unauthenticated = true
   let isSideNavOpen = false
 </script>
 
@@ -50,23 +49,28 @@
     <SkipToContent />
   </div>
 
-  {#if loggedIn}
+  {#if unauthenticated}
+    <HeaderNav>
+      <Button href={urls.LOGIN_URL} kind="secondary">Log in</Button>
+      <Button href="/signup">Sign up</Button>
+    </HeaderNav>
+  {:else}
     <SideNav bind:isOpen={isSideNavOpen} fixed rail>
       <SideNavItems>
         <SideNavLink href="/users" text="Users" icon={Person20} />
       </SideNavItems>
     </SideNav>
-  {:else}
-    <HeaderNav>
-      <Button href="/login" kind="secondary">Log in</Button>
-      <Button href="/signup">Sign up</Button>
-    </HeaderNav>
   {/if}
 
   <HeaderUtilities>
     <HeaderActionLink href="/imprint" icon={Attachment20} />
     <HeaderAction>
       <HeaderPanelLinks>
+        {#if unauthenticated}
+          <HeaderPanelLink href={urls.LOGIN_URL}>Log in</HeaderPanelLink>
+          <HeaderPanelLink href="/signup">Sign up</HeaderPanelLink>
+          <HeaderPanelDivider />
+        {/if}
         <HeaderPanelLink>Dashboard</HeaderPanelLink>
         <HeaderPanelDivider>Services</HeaderPanelDivider>
         <HeaderPanelLink href={urls.BASE_URL}>{names.APPLICATION_NAME}</HeaderPanelLink>
