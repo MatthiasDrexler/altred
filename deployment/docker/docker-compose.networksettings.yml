@@ -1,6 +1,6 @@
 services:
-    internal-network:
-        networks:
-            - altred-dev
-        dns:
-            - $INTERNAL_DNS_IP
+  internal-network:
+    networks:
+      - altred-dev
+    dns:
+      - $INTERNAL_DNS_IP

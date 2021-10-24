@@ -51,7 +51,11 @@ jobs:
           heroku config:set --app ${{ secrets.HEROKU_USER_MANAGEMENT_FRONTEND_NAME }} \
             "ALTRED_UM_SUITE_NAME=altred" \
             "ALTRED_UM_APPLICATION_NAME=User Management" \
-            "ALTRED_UM_FRONTEND_BASE_URL=https://altred-user-management-frntend.herokuapp.com"
+            "ALTRED_UM_FRONTEND_BASE_URL=https://altred-user-management-frntend.herokuapp.com" \
+            "ALTRED_UM_AUTH_URL"=http://altred-authentication.herokuapp.com/auth/realms/altred-main/protocol/openid-connect/token \
+            "ALTRED_UM_AUTH_CLIENT_ID"=altred-um \
+            "ALTRED_UM_AUTH_CLIENT_SECRET"=um-secret \
+            "ALTRED_UM_LOGIN_URL"=http://altred-authentication.herokuapp.com/auth/realms/altred-main/protocol/openid-connect/auth?response_type=code&client_id=altred-um&scope=openid&redirect_uri=http://altred-user-management-frntend.herokuapp.com/login
       - name: Log in at Heroku container registry
         run: heroku container:login
       - name: Push Docker image to Heroku

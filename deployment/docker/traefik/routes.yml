@@ -1,0 +1,19 @@
+http:
+  routers:
+    route-to-um-backend-on-host:
+      rule: Host(`um-backend.local.cloud`)
+      service: forward-to-um-backend-on-host
+      priority: 1
+    route-to-um-frontend-on-host:
+      rule: Host(`um.local.cloud`)
+      service: forward-to-um-frontend-on-host
+      priority: 1
+  services:
+    forward-to-um-backend-on-host:
+      loadBalancer:
+        servers:
+          - url: http://host.docker.internal:8080
+    forward-to-um-frontend-on-host:
+      loadBalancer:
+        servers:
+          - url: http://host.docker.internal:3000
