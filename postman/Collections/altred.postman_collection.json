@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "421ec3df-fe7c-49e7-af47-0ac72aaca53e",
+		"name": "altred",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Overview",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/.well-known/openid-configuration",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								".well-known",
+								"openid-configuration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get client token",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/token",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log in user",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "x",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/auth?response_type=code&client_id=altred-um&scope=openid&response_mode=form_post&redirect_uri={{Redirect-URI}}",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um"
+								},
+								{
+									"key": "scope",
+									"value": "openid"
+								},
+								{
+									"key": "response_mode",
+									"value": "form_post"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{Redirect-URI}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user token with password",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "x",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/token",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user token with code",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "code",
+									"value": "ca9af47c-040a-4bb5-bda1-c7e231f1a2c1.c32e8049-0c80-48df-a6ab-66ffc34246af.94033ca4-42a3-4ba2-b5cc-28112713478f",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{Redirect-URI}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/token",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log out user",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "x",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/logout",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Introspect token",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "token",
+									"value": "{{Access-Token}}",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "altred-um",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "um-secret",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Auth-URL}}/auth/realms/altred-main/protocol/openid-connect/token/introspect",
+							"host": [
+								"{{Auth-URL}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"altred-main",
+								"protocol",
+								"openid-connect",
+								"token",
+								"introspect"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Sign up user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"x\",\n    \"email\": \"x\",\n    \"password\": \"x\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{UM-Backend-URL}}/signup",
+							"host": [
+								"{{UM-Backend-URL}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
