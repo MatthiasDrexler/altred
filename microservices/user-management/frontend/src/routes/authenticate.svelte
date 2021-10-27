@@ -5,6 +5,9 @@
   const sessionState = $page.query.get("session_state")
   const code = $page.query.get("code")
 
+  console.log($page.params.session_state)
+  console.log($page.params.code)
+
   // async function getTokenFromEndpoint() {
   //   const response = await fetch("/token")
   //   if (!response.ok) {
