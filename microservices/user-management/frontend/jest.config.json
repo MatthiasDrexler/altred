@@ -16,6 +16,7 @@
   },
   "extensionsToTreatAsEsm": [".svelte", ".ts"],
   "moduleFileExtensions": ["js", "svelte", "ts"],
+  "setupFiles": ["<rootDir>/jest.setup.ts"],
   "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect"],
   "globals": {
     "ts-jest": {
