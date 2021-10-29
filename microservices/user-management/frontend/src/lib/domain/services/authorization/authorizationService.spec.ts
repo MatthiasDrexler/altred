@@ -1,31 +1,31 @@
 import { AuthorizationService } from "./authorizationService"
+import fetch from "jest-fetch-mock"
 
 describe("AuthorizationService", () => {
   let authorizationService: AuthorizationService
 
-  const unmockedFetch = global.fetch
-
-  beforeAll(() => {
-    global.fetch = () =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ token_type: "Bearer", access_token: "accesstoken" }),
-      }) as Promise<Response>
-  })
-
-  afterAll(() => {
-    global.fetch = unmockedFetch
-  })
-
   beforeEach(() => {
+    fetch.enableMocks()
+
     authorizationService = new AuthorizationService()
   })
 
-  it("should ", async () => {
-    const authorizationCode = "authorization code"
+  it("should retrieve token from keycloak with authorization code", async () => {
+    const accessTokenFromKeycloak = { token_type: "Bearer", access_token: "accesstoken" }
+    fetch.mockOnce(JSON.stringify(accessTokenFromKeycloak))
 
-    const token = await authorizationService.retrieveTokenForUser(authorizationCode)
+    const token = await authorizationService.retrieveTokenForUser("authorization code")
 
-    expect(token.accessToken).toBe("accesstoken")
+    expect(token.accessToken).toBe(accessTokenFromKeycloak.access_token)
+    expect(fetch).toHaveBeenCalledWith(
+      process.env.ALTRED_UM_AUTH_URL,
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": expect.stringContaining("application/x-www-form-urlencoded"),
+        },
+        body: expect.any(URLSearchParams),
+      })
+    )
   })
 })
