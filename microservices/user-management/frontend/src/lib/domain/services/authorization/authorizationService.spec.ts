@@ -10,13 +10,13 @@ describe("AuthorizationService", () => {
     authorizationService = new AuthorizationService()
   })
 
-  it("should retrieve token from keycloak with authorization code", async () => {
+  it("should invoke token endpoint from keycloak with authorization code", async () => {
+    const authorizationCode = "authorization code"
     const accessTokenFromKeycloak = { token_type: "Bearer", access_token: "accesstoken" }
     fetch.mockOnce(JSON.stringify(accessTokenFromKeycloak))
 
-    const token = await authorizationService.retrieveTokenForUser("authorization code")
+    await authorizationService.retrieveTokenForUser(authorizationCode)
 
-    expect(token.accessToken).toBe(accessTokenFromKeycloak.access_token)
     expect(fetch).toHaveBeenCalledWith(
       process.env.ALTRED_UM_AUTH_URL,
       expect.objectContaining({
@@ -27,5 +27,11 @@ describe("AuthorizationService", () => {
         body: expect.any(URLSearchParams),
       })
     )
+    const usedUrlSearchParams = fetch.mock.calls[0][1].body as URLSearchParams
+    expect(usedUrlSearchParams.get("grant_type")).toBe("authorization_code")
+    expect(usedUrlSearchParams.get("client_id")).toBe(process.env["ALTRED_UM_AUTH_CLIENT_ID"])
+    expect(usedUrlSearchParams.get("client_secret")).toBe(process.env["ALTRED_UM_AUTH_CLIENT_SECRET"])
+    expect(usedUrlSearchParams.get("code")).toBe(authorizationCode)
+    expect(usedUrlSearchParams.get("redirect_uri")).toBe(process.env["ALTRED_UM_AUTH_REDIRECT_URI"])
   })
 })
