@@ -1,4 +1,4 @@
-import { names } from "$lib/domain/configuration/names"
+import { names } from "$lib/domain/configuration/public/names"
 
 type NamesDto = { body }
 

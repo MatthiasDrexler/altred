@@ -13,7 +13,7 @@ describe("AuthorizationService", () => {
   it("should invoke token endpoint from keycloak with authorization code", async () => {
     const authorizationCode = "authorization code"
     const accessTokenFromKeycloak = { token_type: "Bearer", access_token: "accesstoken" }
-    fetch.mockOnce(JSON.stringify(accessTokenFromKeycloak))
+    fetch.mockResponse(JSON.stringify(accessTokenFromKeycloak))
 
     await authorizationService.retrieveTokenForUser(authorizationCode)
 

@@ -1,4 +1,4 @@
-import { auth } from "$lib/domain/configuration/auth"
+import { auth } from "$lib/domain/configuration/private/auth"
 import { AccessTokenDto } from "$lib/dtos/accessTokenDto"
 
 export class AuthorizationService {

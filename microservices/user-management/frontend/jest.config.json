@@ -25,5 +25,6 @@
       "useESM": true
     }
   },
-  "testEnvironment": "jsdom"
+  "testEnvironment": "jsdom",
+  "collectCoverageFrom": ["src/**/*.{ts,js,svelte}"]
 }

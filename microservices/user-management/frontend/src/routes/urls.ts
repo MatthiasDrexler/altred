@@ -1,4 +1,4 @@
-import { urls } from "$lib/domain/configuration/urls"
+import { urls } from "$lib/domain/configuration/public/urls"
 
 type UrlsDto = { body }
 

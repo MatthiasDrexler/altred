@@ -1,7 +1,7 @@
 import { get } from "./names"
 
 describe("Names", () => {
-  it("should suite name", () => {
+  it("should contain suite name", () => {
     const names = get()
 
     expect(names.body.SUITE_NAME).toBeDefined()
