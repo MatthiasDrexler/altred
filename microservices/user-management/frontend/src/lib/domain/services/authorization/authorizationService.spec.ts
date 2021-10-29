@@ -18,7 +18,7 @@ describe("AuthorizationService", () => {
     await authorizationService.retrieveTokenForUser(authorizationCode)
 
     expect(fetch).toHaveBeenCalledWith(
-      process.env.ALTRED_UM_AUTH_URL,
+      process.env["ALTRED_UM_AUTH_URL"],
       expect.objectContaining({
         method: "POST",
         headers: {
