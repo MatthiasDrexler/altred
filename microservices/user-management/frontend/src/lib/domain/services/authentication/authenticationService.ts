@@ -2,12 +2,6 @@ import { auth } from "$lib/domain/configuration/private/auth"
 import { AccessTokenDto } from "$lib/dtos/accessTokenDto"
 
 class AuthenticationService {
-  constructor(private _sessionState: string = undefined) {}
-
-  public isUnauthenticated(): boolean {
-    return this._sessionState == undefined
-  }
-
   retrieveTokenForUser = async (authorizationCode: string): Promise<AccessTokenDto> => {
     try {
       const response = await fetch(auth.AUTH_URL, {
@@ -30,8 +24,6 @@ class AuthenticationService {
       }
 
       const responseJson = await response.json()
-
-      this._sessionState = responseJson.session_state
 
       return new AccessTokenDto(responseJson.token_type, responseJson.access_token)
     } catch (error: unknown) {
