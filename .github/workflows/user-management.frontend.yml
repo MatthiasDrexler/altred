@@ -11,6 +11,7 @@ on:
 jobs:
   UserManagement_Frontend_Check:
     name: User Management - Frontend - Check
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -30,6 +31,18 @@ jobs:
       - name: Integration test user-management frontend
         working-directory: ./microservices/user-management/frontend
         run: yarn cypress:run
+  UserManagement_Frontend_QualityGate:
+    name: User Management - Frontend - Quality Gate
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install modules
+        working-directory: ./microservices/user-management/frontend
+        run: yarn install
+      - name: Verify code coverage of user-management frontend
+        run: yarn test:coverage
   UserManagement_Frontend_Deploy:
     name: User Management - Frontend - Deploy
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
