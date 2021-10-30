@@ -9,7 +9,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --ignore-path .eslintignore --check --plugin-search-dir=. . && eslint --ignore-path .eslintignore .",
     "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json --coverage",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json --coverage --coverageThreshold '{}'",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest src --config jest.config.json --coverage",
     "test:watch": "npm run test -- --watch",
     "cypress:run": "npx cypress run",
     "cypress:open": "TS_NODE_PROJECT=0 npx cypress open"
