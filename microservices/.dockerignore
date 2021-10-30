@@ -6,6 +6,9 @@
 **/node_modules/
 **/target/
 **/Dockerfile*
+# Except for (authentication)
+!*/altred-main-realm.json
+!*/run-with-decoded-database-url.sh
 # Except for (backend)
 !*/*/.cargo/**
 !*/*/src/**
