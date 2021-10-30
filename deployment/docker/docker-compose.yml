@@ -98,6 +98,7 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - reverse-proxy
       - host-dns-server
       - internal-dns-server
     environment:
@@ -118,6 +119,7 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - reverse-proxy
       - host-dns-server
       - internal-dns-server
       - postgres
@@ -149,6 +151,7 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - reverse-proxy
       - host-dns-server
       - internal-dns-server
     environment:
@@ -176,6 +179,7 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - reverse-proxy
       - host-dns-server
       - internal-dns-server
       - postgres
