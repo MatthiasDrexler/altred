@@ -1,13 +1,9 @@
-import { AuthorizationService } from "./authorizationService"
+import { authenticationService } from "./authenticationService"
 import fetch from "jest-fetch-mock"
 
 describe("AuthorizationService", () => {
-  let authorizationService: AuthorizationService
-
   beforeEach(() => {
     fetch.enableMocks()
-
-    authorizationService = new AuthorizationService()
   })
 
   it("should invoke token endpoint from keycloak with authorization code", async () => {
@@ -15,7 +11,7 @@ describe("AuthorizationService", () => {
     const accessTokenFromKeycloak = { token_type: "Bearer", access_token: "accesstoken" }
     fetch.mockResponse(JSON.stringify(accessTokenFromKeycloak))
 
-    await authorizationService.retrieveTokenForUser(authorizationCode)
+    await authenticationService.retrieveTokenForUser(authorizationCode)
 
     expect(fetch).toHaveBeenCalledWith(
       process.env["ALTRED_UM_AUTH_URL"],

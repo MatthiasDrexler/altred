@@ -1,5 +1,5 @@
 import { urls } from "$lib/domain/configuration/public/urls"
-import { AuthorizationService } from "$lib/domain/services/authorization/authorizationService"
+import { authenticationService } from "$lib/domain/services/authentication/authenticationService"
 import type { RequestHandler } from "@sveltejs/kit"
 
 type EndpointOutput = { headers; status }
@@ -11,7 +11,7 @@ export const post: RequestHandler<unknown, FormData> = async ({ body }): Promise
   console.log("Authorization Code: " + code)
   console.log("Session State: " + sessionState)
 
-  await new AuthorizationService().retrieveTokenForUser(code)
+  await authenticationService.retrieveTokenForUser(code)
 
   return {
     headers: { Location: urls.ENTRY_URL },
