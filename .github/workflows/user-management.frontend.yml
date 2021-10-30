@@ -70,6 +70,7 @@ jobs:
             "ALTRED_UM_AUTH_CLIENT_SECRET=um-secret" \
             "ALTRED_UM_LOGIN_URL=http://altred-authentication.herokuapp.com/auth/realms/altred-main/protocol/openid-connect/auth?response_type=code&client_id=altred-um&scope=openid&redirect_uri=https://altred-user-management-frntend.herokuapp.com/token" \
             "ALTRED_UM_AUTH_REDIRECT_URI=https://altred-user-management-frntend.herokuapp.com/token"
+            "ALTRED_UM_AUTH_ENTRY_URL=https://altred-user-management-frntend.herokuapp.com"
       - name: Log in at Heroku container registry
         run: heroku container:login
       - name: Push Docker image to Heroku

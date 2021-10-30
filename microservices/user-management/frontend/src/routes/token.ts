@@ -1,17 +1,20 @@
+import { urls } from "$lib/domain/configuration/public/urls"
 import { AuthorizationService } from "$lib/domain/services/authorization/authorizationService"
-import type { ServerRequest } from "@sveltejs/kit/types/hooks"
+import type { RequestHandler } from "@sveltejs/kit"
 
-type EndpointOutput = { body }
+type EndpointOutput = { headers; status }
 
-export const post = async (request: ServerRequest): Promise<EndpointOutput> => {
-  const code = request.body.get("code")
-  const sessionState = request.body.get("session_state")
+export const post: RequestHandler<unknown, FormData> = async ({ body }): Promise<EndpointOutput> => {
+  const code = body.get("code")
+  const sessionState = body.get("session_state")
 
-  console.log(code)
-  console.log(sessionState)
+  console.log("Authorization Code: " + code)
+  console.log("Session State: " + sessionState)
 
-  const accessToken = await new AuthorizationService().retrieveTokenForUser(code)
-  if (accessToken) {
-    return { body: accessToken }
+  await new AuthorizationService().retrieveTokenForUser(code)
+
+  return {
+    headers: { Location: urls.ENTRY_URL },
+    status: 302,
   }
 }
