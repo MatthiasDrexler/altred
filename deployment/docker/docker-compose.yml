@@ -51,6 +51,9 @@ services:
         ipv4_address: ${TRAEFIK_IP}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - host-dns-server
+      - internal-dns-server
     ports:
       - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
     command:
@@ -94,6 +97,9 @@ services:
     extends:
       file: docker-compose.networksettings.yml
       service: internal-network
+    depends_on:
+      - host-dns-server
+      - internal-dns-server
     environment:
       PGADMIN_DEFAULT_EMAIL: ${SERVICE_USERNAME}@${CLUSTER_DOMAIN}
       PGADMIN_DEFAULT_PASSWORD: $SERVICE_PASSWORD
@@ -112,6 +118,8 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - host-dns-server
+      - internal-dns-server
       - postgres
     environment:
       KEYCLOAK_USER: $SERVICE_USERNAME
@@ -140,6 +148,9 @@ services:
     extends:
       file: docker-compose.networksettings.yml
       service: internal-network
+    depends_on:
+      - host-dns-server
+      - internal-dns-server
     environment:
       PORT: 80
       ALTRED_UM_SUITE_NAME: altred
@@ -165,6 +176,8 @@ services:
       file: docker-compose.networksettings.yml
       service: internal-network
     depends_on:
+      - host-dns-server
+      - internal-dns-server
       - postgres
     environment:
       PORT: 8080
